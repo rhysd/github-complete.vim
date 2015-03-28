@@ -21,13 +21,7 @@ let s:source = {
 \ }
 
 function! s:source.get_complete_position(context)
-    echom a:context.input
-    let colon_idx = strridx(a:context.input[:col('.')-1], ':')
-    if colon_idx == -1
-        return -1
-    endif
-    echom string(colon_idx)
-    return colon_idx
+    return strridx(a:context.input[:col('.')-1], ':')
 endfunction
 
 function! s:candidate_generator()
