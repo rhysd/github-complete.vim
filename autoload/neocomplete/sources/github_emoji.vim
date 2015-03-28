@@ -1,12 +1,6 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! s:error(msg)
-    echohl ErrorMsg
-    execute 'echomsg' a:msg
-    echohl None
-endfunction
-
 function! s:has_vim_emoji()
     if !exists('s:exists_vim_emoji')
         try
@@ -20,7 +14,7 @@ function! s:has_vim_emoji()
 endfunction
 
 let s:source = {
-\ 'name'      : 'github',
+\ 'name'      : 'github_emoji',
 \ 'rank'      : 200,
 \ 'kind'      : 'manual',
 \ 'filetypes' : { 'markdown' : 1, 'gitcommit' : 1 },
@@ -30,28 +24,30 @@ function! s:source.get_complete_position(context)
     echom a:context.input
     let colon_idx = strridx(a:context.input[:col('.')-1], ':')
     if colon_idx == -1
-        echom "foo!"
         return -1
     endif
     echom string(colon_idx)
     return colon_idx
 endfunction
 
-function! s:source.gather_candidates(context)
+function! s:candidate_generator()
     if emoji#available()
-        return
-            \ map(emoji#list(), '{
-                    \ "word" : ":" . v:val . ":",
-                    \ "abbr" : ":" . v:val . ": " . emoji#for(v:val),
-                    \ "menu" : "[github]",
-                    \ }')
+        return '{
+            \ "word" : ":" . v:val . ":",
+            \ "abbr" : ":" . v:val . ": " . emoji#for(v:val),
+            \ "menu" : "[github]",
+            \ }'
     else
-        return map(emoji#list(), '{"word" : ":" . v:val . ":", "menu" : "[github]"}')
+        return '{"word" : ":" . v:val . ":", "menu" : "[github]"}'
     endif
 endfunction
 
-function! neocomplete#sources#github#define()
-    return s:source
+function! s:source.gather_candidates(context)
+    return map(emoji#list(), s:candidate_generator())
+endfunction
+
+function! neocomplete#sources#github_emoji#define()
+    return s:has_vim_emoji() ? s:source : {}
 endfunction
 
 let &cpo = s:save_cpo
