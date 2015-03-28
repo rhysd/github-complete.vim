@@ -29,10 +29,10 @@ function! s:candidate_generator()
         return '{
             \ "word" : ":" . v:val . ":",
             \ "abbr" : ":" . v:val . ": " . emoji#for(v:val),
-            \ "menu" : "[github]",
+            \ "menu" : "[emoji]",
             \ }'
     else
-        return '{"word" : ":" . v:val . ":", "menu" : "[github]"}'
+        return '{"word" : ":" . v:val . ":", "menu" : "[emoji]"}'
     endif
 endfunction
 

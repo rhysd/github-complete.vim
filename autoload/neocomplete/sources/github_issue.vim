@@ -2,6 +2,10 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 let g:neocomplete#sources#github_issue#git_cmd = get(g:, 'neocomplete#sources#github_issue#git_cmd', 'git')
+let g:neocomplete#sources#github_issue#include_title = get(g:, 'neocomplete#sources#github_issue#include_title', 0)
+let g:neocomplete#sources#github_issue#num_candidates = get(g:, 'neocomplete#sources#github_issue#num_candidates', 100)
+
+let [s:P, s:H, s:J] = neco_github#import_all()
 
 let s:source = {
 \ 'name'      : 'github_issue',
@@ -9,6 +13,8 @@ let s:source = {
 \ 'kind'      : 'manual',
 \ 'filetypes' : { 'markdown' : 1, 'gitcommit' : 1 },
 \ }
+
+let s:cache = {}
 
 function! s:source.get_complete_position(context)
     return strridx(a:context.input[:col('.')-1], '#')
@@ -19,9 +25,9 @@ endfunction
 "  All rights reserved.
 function! s:git(...) " {{{
     let cmd = [g:neocomplete#sources#github_issue#git_cmd] + a:000
-    let output = vimproc#system(cmd)
-    if vimproc#get_last_status()
-        call neco_github#error("failed '" . join(cmd, ' ') . "' (exited with " . vimproc#get_last_status() . ")")
+    let output = s:P.system(cmd)
+    if s:P.get_last_status()
+        call neco_github#error("failed '" . join(cmd, ' ') . "' (exited with " . s:P.get_last_status() . ")")
         return ''
     endif
     return output
@@ -58,7 +64,7 @@ function! s:parse_github_remote_url(github_host)
             if !empty(m)
                 return {
                 \   'user': m[1],
-                \   'repos': substitute(m[2], '\.git$', '', ''),
+                \   'name': substitute(m[2], '\.git$', '', ''),
                 \ }
             endif
         endfor
@@ -67,12 +73,54 @@ function! s:parse_github_remote_url(github_host)
 endfunction
 " }}}
 
+function! s:call_api(user, repo)
+    let response = s:H.request({
+        \ 'url' : 'https://api.github.com/repos/rhysd/Dachs/issues',
+        \ 'headers' : {'Accept' : 'application/vnd.github.v3+json'},
+        \ 'method' : 'GET',
+        \ 'param' : {'state' : 'all', 'per_page' : g:neocomplete#sources#github_issue#num_candidates},
+        \ 'client' : ['curl', 'wget'],
+        \ })
+    if !response.success
+        call neco_github#error('API request was failed with status' . response.status . ': ' . response.statusText)
+        return []
+    endif
+    return s:J.decode(response.content)
+endfunction
+
+function! s:issues(user, repo)
+    let path = a:user . '/' . a:repo
+    if has_key(s:cache, path)
+        return s:cache[path]
+    endif
+
+    let candidates = map(s:call_api(a:user, a:repo), '{
+                \ "word" : "#" . (g:neocomplete#sources#github_issue#include_title ? v:val.number . " " . v:val.title : v:val.number),
+                \ "abbr" : "#" . v:val.number . " " . v:val.title,
+                \ "menu" : "[issue]",
+                \ }')
+    let s:cache[path] = candidates
+
+    echom string(map(copy(candidates), 'v:val.word'))
+
+    return candidates
+endfunction
+
 function! s:source.gather_candidates(context)
-    return []
+    let repo = s:parse_github_remote_url("github.com")
+    return s:issues(repo.user, repo.name)
 endfunction
 
 function! neocomplete#sources#github_issue#define()
     return s:source
+endfunction
+
+function! neocomplete#sources#github_issue#reset_cache(...)
+    if a:0 == 0
+        let s:cache = {}
+    elseif (has_key(s:cache, a:1))
+        unlet s:cache[a:1]
+    endif
 endfunction
 
 let &cpo = s:save_cpo
