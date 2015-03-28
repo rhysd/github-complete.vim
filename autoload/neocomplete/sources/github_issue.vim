@@ -7,11 +7,14 @@ let g:neocomplete#sources#github_issue#num_candidates = get(g:, 'neocomplete#sou
 
 let [s:P, s:H, s:J] = neco_github#import_all()
 
+" Note:
+" github_issue controls its cache by itself
 let s:source = {
-\ 'name'      : 'github_issue',
-\ 'rank'      : 200,
-\ 'kind'      : 'manual',
-\ 'filetypes' : { 'markdown' : 1, 'gitcommit' : 1 },
+\ 'name'        : 'github_issue',
+\ 'rank'        : 200,
+\ 'kind'        : 'manual',
+\ 'filetypes'   : { 'markdown' : 1, 'gitcommit' : 1 },
+\ 'is_volatile' : 1,
 \ }
 
 let s:cache = {}
@@ -100,8 +103,6 @@ function! s:issues(user, repo)
                 \ "menu" : "[issue]",
                 \ }')
     let s:cache[path] = candidates
-
-    echom string(map(copy(candidates), 'v:val.word'))
 
     return candidates
 endfunction
