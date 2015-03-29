@@ -1,3 +1,3 @@
-if g:github_complete#overwrite_completefunc
-    setlocal completefunc=github_complete#complete
+if g:github_complete#overwrite_omnifunc || &ofu ==# ''
+    setlocal omnifunc=github_complete#complete
 endif

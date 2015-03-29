@@ -1,4 +1,4 @@
-let g:github_complete#overwrite_completefunc  = get(g:, 'github_complete#overwrite_completefunc', 1)
+let g:github_complete#overwrite_omnifunc      = get(g:, 'github_complete#overwrite_omnifunc', 1)
 let g:github_complete#enable_neocomplete      = get(g:, 'github_complete#enable_neocomplete', 0)
 let g:github_complete#enable_emoji_completion = get(g:, 'github_complete#enable_emoji_completion', 1)
 let g:github_complete#enable_issue_completion = get(g:, 'github_complete#enable_issue_completion', 1)
