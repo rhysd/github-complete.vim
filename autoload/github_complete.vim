@@ -1,3 +1,5 @@
+let g:github_complete#enable_emoji_completion = get(g:, 'github_complete#enable_emoji_completion', 1)
+
 function! github_complete#error(msg)
     echohl ErrorMsg
     echomsg a:msg
@@ -13,18 +15,25 @@ function! github_complete#import_vital()
 endfunction
 
 function! s:find_start_col()
-    let l = getline('.')
-    let c = github_complete#emoji#find_start(l)
-    if c < 0
-        return col('.') - 1
-    else
-        return c
+    let line = getline('.')
+    let c = github_complete#emoji#find_start(line)
+    if g:github_complete#enable_emoji_completion
+        if c >= 0
+            return c
+        endif
     endif
+    return col('.') - 1
 endfunction
 
 function! github_complete#complete(findstart, base)
     if a:findstart
         return s:find_start_col()
     endif
-    return github_complete#emoji#candidates(a:base)
+
+    let candidates = []
+
+    if g:github_complete#enable_emoji_completion
+        let candidates += github_complete#emoji#candidates(a:base)
+    endif
+    return candidates
 endfunction
