@@ -45,7 +45,6 @@ endfunction
 
 function! s:response_of(request, path)
     let [condition, status] = a:request.process.checkpid()
-    PP! [condition, status]
     if condition ==# 'exit'
         call a:request.process.stdout.close()
         call a:request.process.stderr.close()
@@ -74,7 +73,6 @@ endfunction
 
 function! github_complete#api#call_async(path, params)
     if has_key(s:working_processes, a:path)
-        echom "already fetched: " . a:path
         return s:response_of(s:working_processes[a:path], a:path)
     endif
 
@@ -85,6 +83,10 @@ endfunction
 let s:cache = {}
 
 function! github_complete#api#call_cached(path, params)
+    if has_key(s:cache, a:path)
+        return s:cache[a:path]
+    endif
+
     let response = github_complete#api#call(a:path, a:params)
     let s:cache[a:path] = response
     return response
