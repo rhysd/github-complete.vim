@@ -1,8 +1,9 @@
+let g:github_complete#overwrite_completefunc = get(g:, 'github_complete#overwrite_completefunc', 1)
 let g:github_complete#enable_emoji_completion = get(g:, 'github_complete#enable_emoji_completion', 1)
 
 function! github_complete#error(msg)
     echohl ErrorMsg
-    echomsg a:msg
+    echomsg 'github-complete.vim: ' . a:msg
     echohl None
 endfunction
 
