@@ -2,29 +2,30 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 
-function! s:_vital_loaded(V) abort
+function! s:_vital_loaded(V)
   let s:V = a:V
+
   let s:Prelude = s:V.import('Prelude')
-  let s:Process = s:V.import('Process')
   let s:String = s:V.import('Data.String')
+  let s:Process = s:V.import('Process')
 endfunction
 
-function! s:_vital_depends() abort
+function! s:_vital_depends()
   return ['Prelude', 'Data.String', 'Process']
 endfunction
 
-function! s:__urlencode_char(c) abort
+function! s:__urlencode_char(c)
   return printf("%%%02X", char2nr(a:c))
 endfunction
 
-function! s:decodeURI(str) abort
+function! s:decodeURI(str)
   let ret = a:str
   let ret = substitute(ret, '+', ' ', 'g')
   let ret = substitute(ret, '%\(\x\x\)', '\=printf("%c", str2nr(submatch(1), 16))', 'g')
   return ret
 endfunction
 
-function! s:escape(str) abort
+function! s:escape(str)
   let result = ''
   for i in range(len(a:str))
     if a:str[i] =~# '^[a-zA-Z0-9_.~-]$'
@@ -36,7 +37,7 @@ function! s:escape(str) abort
   return result
 endfunction
 
-function! s:encodeURI(items) abort
+function! s:encodeURI(items)
   let ret = ''
   if s:Prelude.is_dict(a:items)
     for key in sort(keys(a:items))
@@ -58,7 +59,7 @@ function! s:encodeURI(items) abort
   return ret
 endfunction
 
-function! s:encodeURIComponent(items) abort
+function! s:encodeURIComponent(items)
   let ret = ''
   if s:Prelude.is_dict(a:items)
     for key in sort(keys(a:items))
@@ -96,7 +97,7 @@ let s:default_settings = {
 \   'maxRedirect': 20,
 \   'retry': 1,
 \ }
-function! s:request(...) abort
+function! s:request(...)
   let settings = {}
   for arg in a:000
     if s:Prelude.is_dict(arg)
@@ -151,7 +152,55 @@ function! s:request(...) abort
   return s:_build_response(header, content)
 endfunction
 
-function! s:get(url, ...) abort
+function! s:request_async(...)
+  let settings = {}
+  for arg in a:000
+    if s:Prelude.is_dict(arg)
+      let settings = extend(settings, arg, 'keep')
+    elseif s:Prelude.is_string(arg)
+      if has_key(settings, 'url')
+        let settings.method = settings.url
+      endif
+      let settings.url = arg
+    endif
+    unlet arg
+  endfor
+  call extend(settings, deepcopy(s:default_settings), 'keep')
+  let settings.method = toupper(settings.method)
+  if !has_key(settings, 'url')
+    throw 'Vital.Web.HTTP.request(): "url" parameter is required.'
+  endif
+  if !s:Prelude.is_list(settings.client)
+    let settings.client = [settings.client]
+  endif
+  let client = s:_get_async_client(settings)
+  if empty(client)
+    throw 'Vital.Web.HTTP.request(): Available client not found: '
+    \    . string(settings.client)
+  endif
+  if has_key(settings, 'contentType')
+    let settings.headers['Content-Type'] = settings.contentType
+  endif
+  if has_key(settings, 'param')
+    if s:Prelude.is_dict(settings.param)
+      let getdatastr = s:encodeURI(settings.param)
+    else
+      let getdatastr = settings.param
+    endif
+    if strlen(getdatastr)
+      let settings.url .= '?' . getdatastr
+    endif
+  endif
+  if has_key(settings, 'data')
+    let settings.data = s:_postdata(settings.data)
+    let settings.headers['Content-Length'] = len(join(settings.data, "\n"))
+  endif
+  let settings._file = {}
+
+  return client.request_async(settings)
+endfunction
+
+function! s:get(url, ...)
   let settings = {
   \    'url': a:url,
   \    'param': a:0 > 0 ? a:1 : {},
@@ -160,7 +209,7 @@ function! s:get(url, ...) abort
   return s:request(settings)
 endfunction
 
-function! s:post(url, ...) abort
+function! s:post(url, ...)
   let settings = {
   \    'url': a:url,
   \    'data': a:0 > 0 ? a:1 : {},
@@ -170,20 +219,20 @@ function! s:post(url, ...) abort
   return s:request(settings)
 endfunction
 
-function! s:_readfile(file) abort
+function! s:_readfile(file)
   if filereadable(a:file)
     return join(readfile(a:file, 'b'), "\n")
   endif
   return ''
 endfunction
 
-function! s:_make_postfile(data) abort
+function! s:_make_postfile(data)
   let fname = tr(tempname(),'\','/')
   call writefile(a:data, fname, 'b')
   return fname
 endfunction
 
-function! s:_postdata(data) abort
+function! s:_postdata(data)
   if s:Prelude.is_dict(a:data)
     return [s:encodeURI(a:data)]
   elseif s:Prelude.is_list(a:data)
@@ -193,7 +242,7 @@ function! s:_postdata(data) abort
   endif
 endfunction
 
-function! s:_build_response(header, content) abort
+function! s:_build_response(header, content)
   let response = {
   \   'header' : a:header,
   \   'content': a:content,
@@ -216,7 +265,7 @@ function! s:_build_response(header, content) abort
   return response
 endfunction
 
-function! s:_make_header_args(headdata, option, quote) abort
+function! s:_make_header_args(headdata, option, quote)
   let args = ''
   for [key, value] in items(a:headdata)
     if s:Prelude.is_windows()
@@ -227,7 +276,7 @@ function! s:_make_header_args(headdata, option, quote) abort
   return args
 endfunction
 
-function! s:parseHeader(headers) abort
+function! s:parseHeader(headers)
   " FIXME: User should be able to specify the treatment method of the duplicate item.
   let header = {}
   for h in a:headers
@@ -241,7 +290,7 @@ function! s:parseHeader(headers) abort
 endfunction
 
 " Clients
-function! s:_get_client(settings) abort
+function! s:_get_client(settings)
   let candidates = a:settings.client
   let names = s:Prelude.is_list(candidates) ? candidates : [candidates]
   for name in names
@@ -251,11 +300,20 @@ function! s:_get_client(settings) abort
   endfor
   return {}
 endfunction
+function! s:_get_async_client(settings)
+  let candidates = a:settings.client
+  let names = s:Prelude.is_list(candidates) ? candidates : [candidates]
+  for name in names
+    if has_key(s:clients, name) && s:clients[name].available(a:settings) && has_key(s:clients[name], 'request_async')
+      return s:clients[name]
+    endif
+  endfor
+  return {}
+endfunction
 let s:clients = {}
 
 let s:clients.python = {}
-
-function! s:clients.python.available(settings) abort
+function! s:clients.python.available(settings)
   if !has('python')
     return 0
   endif
@@ -269,8 +327,7 @@ function! s:clients.python.available(settings) abort
   endif
   return 1
 endfunction
-
-function! s:clients.python.request(settings) abort
+function! s:clients.python.request(settings)
   " TODO: maxRedirect, retry, outputFile
   let header = ''
   let body = ''
@@ -278,11 +335,7 @@ function! s:clients.python.request(settings) abort
 try:
     class DummyClassForLocalScope:
         def main():
-            try:
-                from StringIO import StringIO
-            except ImportError:
-                from io import StringIO
-            import vim, urllib2, socket, gzip
+            import vim, urllib2, socket
             def vimstr(s):
                 return "'" + s.replace("\0", "\n").replace("'", "''") + "'"
 
@@ -331,15 +384,7 @@ try:
 
                 st = status(res)
                 responseHeaders = st + ''.join(res.info().headers)
-                response_body = res.read()
-
-                gzip_decompress = settings.get('gzipDecompress', False)
-                if gzip_decompress:
-                    buf = StringIO(response_body)
-                    f = gzip.GzipFile(fileobj=buf)
-                    response_body = f.read()[:-1]
-
-                return (responseHeaders, response_body)
+                return (responseHeaders, res.read())
 
             (header, body) = access()
             vim.command('let header = ' + vimstr(header))
@@ -357,16 +402,13 @@ endpython
 endfunction
 
 let s:clients.curl = {}
-
-function! s:clients.curl.available(settings) abort
+function! s:clients.curl.available(settings)
   return executable(self._command(a:settings))
 endfunction
-
-function! s:clients.curl._command(settings) abort
+function! s:clients.curl._command(settings)
   return get(get(a:settings, 'command', {}), 'curl', 'curl')
 endfunction
-
-function! s:clients.curl.request(settings) abort
+function! s:clients.curl.request(settings)
   let quote = s:_quote()
   let command = self._command(a:settings)
   let a:settings._file.header = tr(tempname(),'\','/')
@@ -379,9 +421,6 @@ function! s:clients.curl.request(settings) abort
     let a:settings._file.content = output_file
   endif
   let command .= ' --output ' . quote . output_file . quote
-  if has_key(a:settings, 'gzipDecompress') && a:settings.gzipDecompress
-    let command .= ' --compressed '
-  endif
   let command .= ' -L -s -k -X ' . a:settings.method
   let command .= ' --max-redirs ' . a:settings.maxRedirect
   let command .= s:_make_header_args(a:settings.headers, '-H ', quote)
@@ -412,18 +451,68 @@ function! s:clients.curl.request(settings) abort
   endif
   return [header, content]
 endfunction
+function! s:clients.curl.request_async(settings)
+  let quote = s:_quote()
+  let command = self._command(a:settings)
+  let a:settings._file.header = tr(tempname(),'\','/')
+  let command .= ' --dump-header ' . quote . a:settings._file.header . quote
+  let has_output_file = has_key(a:settings, 'outputFile')
+  if has_output_file
+    let output_file = a:settings.outputFile
+  else
+    let output_file = tr(tempname(),'\','/')
+    let a:settings._file.content = output_file
+  endif
+  let command .= ' --output ' . quote . output_file . quote
+  let command .= ' -L -s -k -X ' . a:settings.method
+  let command .= ' --max-redirs ' . a:settings.maxRedirect
+  let command .= s:_make_header_args(a:settings.headers, '-H ', quote)
+  let timeout = get(a:settings, 'timeout', '')
+  let command .= ' --retry ' . a:settings.retry
+  if timeout =~# '^\d\+$'
+    let command .= ' --max-time ' . timeout
+  endif
+  if has_key(a:settings, 'username')
+    let auth = a:settings.username . ':' . get(a:settings, 'password', '')
+    let command .= ' --anyauth --user ' . quote . auth . quote
+  endif
+  let command .= ' ' . quote . a:settings.url . quote
+  if has_key(a:settings, 'data')
+    let a:settings._file.post = s:_make_postfile(a:settings.data)
+    let command .= ' --data-binary @' . quote . a:settings._file.post . quote
+  endif
+
+  let process =  vimproc#popen3(command)
+  let files = a:settings._file
+  let files.has_output_file = has_output_file
+  return {'process' : process, 'files' : files, 'callback' : s:clients.curl.on_complete}
+endfunction
+function! s:clients.curl.on_complete(files)
+  let headerstr = s:_readfile(a:files.header)
+  let header_chunks = split(headerstr, "\r\n\r\n")
+  let header = split(get(header_chunks, -1, ''), "\r\n")
+  if a:files.has_output_file
+    let content = ''
+  else
+    let content = s:_readfile(a:files.content)
+  endif
+
+  for file in filter(values(a:files), 's:Prelude.is_string(v:val)')
+    if filereadable(file)
+      call delete(file)
+    endif
+  endfor
+  return s:_build_response(header, content)
+endfunction
 
 let s:clients.wget = {}
-
-function! s:clients.wget.available(settings) abort
+function! s:clients.wget.available(settings)
   return executable(self._command(a:settings))
 endfunction
-
-function! s:clients.wget._command(settings) abort
+function! s:clients.wget._command(settings)
   return get(get(a:settings, 'command', {}), 'wget', 'wget')
 endfunction
-
-function! s:clients.wget.request(settings) abort
+function! s:clients.wget.request(settings)
   let quote = s:_quote()
   let command = self._command(a:settings)
   let method = a:settings.method
@@ -480,8 +569,75 @@ function! s:clients.wget.request(settings) abort
   endif
   return [header, content]
 endfunction
+function! s:clients.wget.request_async(settings)
+  let quote = s:_quote()
+  let command = self._command(a:settings)
+  let method = a:settings.method
+  if method ==# 'HEAD'
+    let command .= ' --spider'
+  elseif method !=# 'GET' && method !=# 'POST'
+    let a:settings.headers['X-HTTP-Method-Override'] = a:settings.method
+  endif
+  let a:settings._file.header = tr(tempname(),'\','/')
+  let command .= ' -o ' . quote . a:settings._file.header . quote
+  let has_output_file = has_key(a:settings, 'outputFile')
+  if has_output_file
+    let output_file = a:settings.outputFile
+  else
+    let output_file = tr(tempname(),'\','/')
+    let a:settings._file.content = output_file
+  endif
+  let command .= ' -O ' . quote . output_file . quote
+  let command .= ' --server-response -q -L '
+  let command .= ' --max-redirect=' . a:settings.maxRedirect
+  let command .= s:_make_header_args(a:settings.headers, '--header=', quote)
+  let timeout = get(a:settings, 'timeout', '')
+  let command .= ' --tries=' . a:settings.retry
+  if timeout =~# '^\d\+$'
+    let command .= ' --timeout=' . timeout
+  endif
+  if has_key(a:settings, 'username')
+    let command .= ' --http-user=' . quote . a:settings.username . quote
+  endif
+  if has_key(a:settings, 'password')
+    let command .= ' --http-password=' . quote . a:settings.password . quote
+  endif
+  let command .= ' ' . quote . a:settings.url . quote
+  if has_key(a:settings, 'data')
+    let a:settings._file.post = s:_make_postfile(a:settings.data)
+    let command .= ' --post-file=' . quote . a:settings._file.post . quote
+  endif
 
-function! s:_quote() abort
+  let process = vimproc#popen3(command)
+  let files = a:settings._file
+  let files.has_output_file = has_output_file
+  return {'process' : process, 'files' : files, 'callback' : s:clients.wget.on_complete}
+endfunction
+function! s:clients.wget.on_complete(files)
+  if filereadable(a:files.header)
+    let header_lines = readfile(a:files.header, 'b')
+    call map(header_lines, 'matchstr(v:val, "^\\s*\\zs.*")')
+    let headerstr = join(header_lines, "\n")
+    let header_chunks = split(headerstr, '\n\zeHTTP/1\.\d')
+    let header = split(get(header_chunks, -1, ''), "\n")
+  else
+    let header = []
+  endif
+  if a:files.has_output_file
+    let content = ''
+  else
+    let content = s:_readfile(a:files.content)
+  endif
+
+  for file in filter(values(a:files), 's:Prelude.is_string(v:val)')
+    if filereadable(file)
+      call delete(file)
+    endif
+  endfor
+  return s:_build_response(header, content)
+endfunction
+
+function! s:_quote()
   return &shellxquote == '"' ?  "'" : '"'
 endfunction
 

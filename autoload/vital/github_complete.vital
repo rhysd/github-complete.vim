@@ -4,3 +4,5 @@ a94e63e
 Process
 Web.HTTP
 Web.JSON
+Data.String
+Prelude
