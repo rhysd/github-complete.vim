@@ -14,7 +14,14 @@ function! github_complete#emoji#has_vim_emoji()
 endfunction
 
 function! github_complete#emoji#find_start(input)
+    if !g:github_complete#enable_emoji_completion
+        return -1
+    endif
     return match(a:input[:col('.') - 1], ':\w*$')
+endfunction
+
+function! github_complete#emoji#is_available(base)
+    return a:base =~# '^:\w*$'
 endfunction
 
 if github_complete#emoji#has_vim_emoji()
@@ -33,6 +40,10 @@ if github_complete#emoji#has_vim_emoji()
                     \ }')
     endif
     function! github_complete#emoji#candidates(base)
+        if !g:github_complete#enable_emoji_completion
+            return []
+        endif
+
         if a:base ==# ''
             return s:candidates
         else
@@ -41,7 +52,7 @@ if github_complete#emoji#has_vim_emoji()
         endif
     endfunction
 else
-    function! github_complete#emoji#candidates()
+    function! github_complete#emoji#candidates(...)
         return []
     endfunction
 endif

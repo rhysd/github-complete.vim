@@ -5,7 +5,7 @@ let s:source = {
 \ 'name'     : 'github_emoji',
 \ 'rank'     : 200,
 \ 'kind'     : 'manual',
-\ 'disabled' : 1,
+\ 'disabled' : !g:github_complete#enable_neocomplete,
 \ }
 
 function! s:source.get_complete_position(context)
