@@ -1,22 +1,15 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-let s:cache = {}
-
 function! s:issues(user, repo)
     let path = a:user . '/' . a:repo
-    if has_key(s:cache, path)
-        return s:cache[path]
-    endif
-
     let api = printf('repos/%s/%s/issues', a:user, a:repo)
     let params = {'state' : 'all', 'per_page' : g:github_complete#max_issue_candidates}
 
-    let candidates = map(github_complete#api#call(api, params), '{
+    let candidates = map(github_complete#api#call_async_cached(api, params), '{
                 \ "number" : v:val.number,
                 \ "title" : v:val.title,
                 \ }')
-    let s:cache[path] = candidates
 
     return candidates
 endfunction
@@ -33,11 +26,7 @@ function! github_complete#issue#is_available(base)
 endfunction
 
 function! github_complete#issue#reset_cache(...)
-    if a:0 == 0
-        let s:cache = {}
-    elseif (has_key(s:cache, a:1))
-        unlet s:cache[a:1]
-    endif
+    call call('github_complete#api#reset_cache', a:000)
 endfunction
 
 function! github_complete#issue#candidates(base)
