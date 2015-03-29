@@ -45,7 +45,7 @@ function! github_complete#issue#candidates(base)
         return []
     endif
 
-    let repo = github_complete#api#detect_github_repo("github.com")
+    let repo = github_complete#git#detect_github_repo("github.com")
 
     let candidates = s:issues(repo.user, repo.name)
 
