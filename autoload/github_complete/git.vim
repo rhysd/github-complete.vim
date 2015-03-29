@@ -5,7 +5,7 @@ let s:P = s:vital['Process']
 " From open-browser-github.vim
 " Copyright (c) 2013, tyru
 "  All rights reserved.
-function! s:git(...) " {{{
+function! s:git(...)
     let cmd = [g:github_complete#git_cmd] + a:000
     let output = s:P.system(cmd)
     if s:P.get_last_status()
@@ -15,7 +15,7 @@ function! s:git(...) " {{{
     return output
 endfunction
 
-function! github_complete#api#detect_github_repo(github_host)
+function! github_complete#git#detect_github_repo(github_host)
     let host_re = escape(a:github_host, '.')
     let gh_host_re = 'github\.com'
 
@@ -53,5 +53,3 @@ function! github_complete#api#detect_github_repo(github_host)
     endfor
     return ''
 endfunction
-" }}}
-
