@@ -5,7 +5,7 @@ let g:neocomplete#sources#github_issue#git_cmd = get(g:, 'neocomplete#sources#gi
 let g:neocomplete#sources#github_issue#include_title = get(g:, 'neocomplete#sources#github_issue#include_title', 0)
 let g:neocomplete#sources#github_issue#num_candidates = get(g:, 'neocomplete#sources#github_issue#num_candidates', 100)
 
-let [s:P, s:H, s:J] = neco_github#import_all()
+let [s:P, s:H, s:J] = github_complete#import_vital()
 
 " Note:
 " github_issue controls its cache by itself
@@ -13,8 +13,8 @@ let s:source = {
 \ 'name'        : 'github_issue',
 \ 'rank'        : 200,
 \ 'kind'        : 'manual',
-\ 'filetypes'   : { 'markdown' : 1, 'gitcommit' : 1 },
 \ 'is_volatile' : 1,
+\ 'disabled'    : 1,
 \ }
 
 let s:cache = {}
@@ -30,7 +30,7 @@ function! s:git(...) " {{{
     let cmd = [g:neocomplete#sources#github_issue#git_cmd] + a:000
     let output = s:P.system(cmd)
     if s:P.get_last_status()
-        call neco_github#error("failed '" . join(cmd, ' ') . "' (exited with " . s:P.get_last_status() . ")")
+        call github_complete#error("failed '" . join(cmd, ' ') . "' (exited with " . s:P.get_last_status() . ")")
         return ''
     endif
     return output
@@ -85,7 +85,7 @@ function! s:call_api(user, repo)
         \ 'client' : ['curl', 'wget'],
         \ })
     if !response.success
-        call neco_github#error('API request was failed with status' . response.status . ': ' . response.statusText)
+        call github_complete#error('API request was failed with status' . response.status . ': ' . response.statusText)
         return []
     endif
     return s:J.decode(response.content)
