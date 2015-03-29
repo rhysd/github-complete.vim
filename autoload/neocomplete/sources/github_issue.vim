@@ -20,7 +20,7 @@ function! s:source.get_complete_position(context)
 endfunction
 
 function! s:source.gather_candidates(context)
-    return github_complete#issue#candidates('')
+    return github_complete#issue#candidates_async('')
 endfunction
 
 function! neocomplete#sources#github_issue#define()

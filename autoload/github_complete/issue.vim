@@ -7,10 +7,14 @@ function! s:api_issue_path_and_param(user, repo)
     return [api, params]
 endfunction
 
-function! s:issues(user, repo)
+function! s:issues(user, repo, async)
     let [path, params] = s:api_issue_path_and_param(a:user, a:repo)
 
-    let candidates = map(github_complete#api#call_cached(path, params), '{
+    let func = a:async ?
+                \ 'github_complete#api#call_async_cached' :
+                \ 'github_complete#api#call_cached'
+
+    let candidates = map(call(func, [path, params]), '{
                 \ "number" : v:val.number,
                 \ "title" : v:val.title,
                 \ }')
@@ -33,7 +37,7 @@ function! github_complete#issue#reset_cache(...)
     call call('github_complete#api#reset_cache', a:000)
 endfunction
 
-function! github_complete#issue#candidates(base)
+function! s:gather_candidates(base, async)
     if !g:github_complete#enable_issue_completion
         return []
     endif
@@ -44,13 +48,21 @@ function! github_complete#issue#candidates(base)
         return []
     endif
 
-    let candidates = s:issues(repo.user, repo.name)
+    let candidates = s:issues(repo.user, repo.name, a:async)
 
     return map(copy(candidates), '{
                 \ "word" : "#" . (g:github_complete#include_issue_title ? v:val.number . " " . v:val.title : v:val.number),
                 \ "abbr" : "#" . v:val.number . " " . v:val.title,
                 \ "menu" : "[issue]",
                 \ }')
+endfunction
+
+function! github_complete#issue#candidates(base)
+    return s:gather_candidates(a:base, 0)
+endfunction
+
+function! github_complete#issue#candidates_async(base)
+    return s:gather_candidates(a:base, 1)
 endfunction
 
 function! github_complete#issue#fetch_issues()
