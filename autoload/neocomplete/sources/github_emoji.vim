@@ -9,7 +9,7 @@ let s:source = {
 \ }
 
 function! s:source.get_complete_position(context)
-    return strridx(a:context.input[:col('.')-1], ':')
+    return github_complete#emoji#find_start(a:context.input)
 endfunction
 
 function! s:source.gather_candidates(context)

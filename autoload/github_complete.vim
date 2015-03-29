@@ -13,11 +13,16 @@ function! github_complete#import_vital()
 endfunction
 
 function! s:find_start_col()
-    return github_complete#emoji#find_start()
+    let l = getline('.')
+    let c = github_complete#emoji#find_start(l)
+    if c < 0
+        return col('.') - 1
+    else
+        return c
+    endif
 endfunction
 
 function! github_complete#complete(findstart, base)
-    PP! [a:findstart, a:base]
     if a:findstart
         return s:find_start_col()
     endif

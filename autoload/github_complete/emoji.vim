@@ -1,3 +1,6 @@
+let s:save_cpo = &cpo
+set cpo&vim
+
 function! github_complete#emoji#has_vim_emoji()
     if !exists('s:exists_vim_emoji')
         try
@@ -10,15 +13,8 @@ function! github_complete#emoji#has_vim_emoji()
     return s:exists_vim_emoji
 endfunction
 
-function! github_complete#emoji#find_start()
-    let c = col('.') - 1
-    let input = getline('.')[:c]
-    let idx = strridx(input, ':')
-    if idx == -1
-        return c
-    else
-        return idx
-    endif
+function! github_complete#emoji#find_start(input)
+    return match(a:input[:col('.') - 1], ':\w*$')
 endfunction
 
 if github_complete#emoji#has_vim_emoji()
@@ -40,6 +36,7 @@ if github_complete#emoji#has_vim_emoji()
         if a:base ==# ''
             return s:candidates
         else
+            let len = strlen(a:base)
             return filter(copy(s:candidates), 'stridx(v:val.word, a:base) == 0')
         endif
     endfunction
@@ -48,3 +45,7 @@ else
         return []
     endfunction
 endif
+
+let &cpo = s:save_cpo
+unlet s:save_cpo
+
