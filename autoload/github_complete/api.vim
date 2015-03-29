@@ -1,7 +1,10 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-let [s:P, s:H, s:J] = github_complete#import_vital()
+let s:vital = github_complete#import_vital()
+let s:H = s:vital['Web.HTTP']
+let s:J = s:vital['Web.JSON']
+let s:O = s:vital['Data.Optional']
 
 function! github_complete#api#call(path, params)
     let response = s:H.request({

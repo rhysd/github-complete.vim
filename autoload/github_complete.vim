@@ -14,9 +14,13 @@ endfunction
 
 function! github_complete#import_vital()
     if !exists('s:modules')
+        let s:modules = {}
         let vital = vital#of('github_complete')
-        let s:modules = map(['Process', 'Web.HTTP', 'Web.JSON'], 'vital.import(v:val)')
+        for m in ['Process', 'Web.HTTP', 'Web.JSON', 'Data.Optional']
+            let s:modules[m] = vital.import(m)
+        endfor
     endif
+
     return s:modules
 endfunction
 

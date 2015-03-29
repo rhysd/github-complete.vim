@@ -6,3 +6,4 @@ Web.HTTP
 Web.JSON
 Data.String
 Prelude
+Data.Optional

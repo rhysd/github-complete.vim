@@ -1,5 +1,6 @@
 
-let [s:P, s:H, s:J] = github_complete#import_vital()
+let s:vital = github_complete#import_vital()
+let s:P = s:vital['Process']
 
 " From open-browser-github.vim
 " Copyright (c) 2013, tyru
