@@ -51,5 +51,5 @@ function! github_complete#git#detect_github_repo(github_host)
             endif
         endfor
     endfor
-    return ''
+    return {}
 endfunction

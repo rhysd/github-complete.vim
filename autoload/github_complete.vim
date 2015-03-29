@@ -5,6 +5,7 @@ let g:github_complete#enable_issue_completion = get(g:, 'github_complete#enable_
 let g:github_complete#include_issue_title     = get(g:, 'github_complete#include_issue_title', 0)
 let g:github_complete#max_issue_candidates    = get(g:, 'github_complete#max_issue_candidates', 100)
 let g:github_complete#git_cmd                 = get(g:, 'github_complete#git_cmd', 'git')
+let g:github_complete#fetch_issues_filetypes  = get(g:, 'github_complete#fetch_issues_filetypes', ['gitcommit'])
 
 function! github_complete#error(msg)
     echohl ErrorMsg
@@ -33,7 +34,6 @@ function! s:find_start_col()
     endif
 
     let c = github_complete#issue#find_start(line)
-    echom c
     if c >= 0
         return c
     endif
@@ -58,3 +58,4 @@ function! github_complete#complete(findstart, base)
     endfor
     return candidates
 endfunction
+
