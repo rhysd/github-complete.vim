@@ -36,7 +36,7 @@ Describe 'github_complete#issue'
 
             " Note:
             " This test will fail if this repository is not original
-            Assert True(github_complete#api#is_cached('repos/rhysd/github-complete.vim/issues'))
+            Assert True(github_complete#api#is_cached('repos/rhysd/github-complete.vim/issues', {'state' : 'all', 'per_page' : g:github_complete#max_issue_candidates}))
 
             Assert Equals(cs, github_complete#issue#candidates(''))
         End

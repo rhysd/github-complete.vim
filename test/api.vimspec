@@ -14,14 +14,14 @@ Describe github_complete#api
         End
 
         It caches the result
-            Assert True(empty(github_complete#api#get_cache("emojis")))
+            Assert True(empty(github_complete#api#get_cache("emojis", {})))
             let res = github_complete#api#call_cached("emojis", {})
             Assert IsDict(res)
             Assert True(!empty(res))
             Assert True(res['+1'] =~# '^https://')
 
             let answer = res['+1']
-            let cached = github_complete#api#get_cache("emojis")
+            let cached = github_complete#api#get_cache("emojis", {})
 
             Assert True(!empty(cached))
             Assert Equals(answer, cached['+1'])
