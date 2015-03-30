@@ -6,6 +6,7 @@ let g:github_complete#include_issue_title     = get(g:, 'github_complete#include
 let g:github_complete#max_issue_candidates    = get(g:, 'github_complete#max_issue_candidates', 100)
 let g:github_complete#git_cmd                 = get(g:, 'github_complete#git_cmd', 'git')
 let g:github_complete#fetch_issues_filetypes  = get(g:, 'github_complete#fetch_issues_filetypes', ['gitcommit'])
+let g:github_complete#emoji_japanese_workaround = get(g:, 'github_complete#emoji_japanese_workaround', 1)
 
 function! github_complete#error(msg)
     echohl ErrorMsg

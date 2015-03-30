@@ -24,6 +24,19 @@ function! github_complete#emoji#is_available(base)
     return a:base =~# '^:\w*$'
 endfunction
 
+function! s:abbr_workaround(emoji)
+    if !g:github_complete#emoji_japanese_workaround
+        return ''
+    endif
+
+    let desc = github_complete#workaround#japanese#for(a:emoji)
+    if desc ==# ''
+        return ''
+    endif
+
+    return " -> " . desc
+endfunction
+
 if github_complete#emoji#has_vim_emoji()
     if emoji#available()
         let s:candidates = map(emoji#list(), '{
@@ -34,8 +47,9 @@ if github_complete#emoji#has_vim_emoji()
     else
         " Note:
         " Add more workaround for the environment emojis are unavailable
-        let s:candidates = map(emoji#list(), '{
+        let s:candidates = map(keys(emoji#data#dict()), '{
                     \ "word" : ":" . v:val . ":",
+                    \ "abbr" : ":" . v:val . ":" . s:abbr_workaround(v:val),
                     \ "menu" : "[emoji]",
                     \ }')
     endif
