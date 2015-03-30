@@ -1,5 +1,4 @@
 let g:Expect = themis#helper('expect')
-let g:root = fnamemodify(expand('<sfile>'), ':h:h')
 
-call themis#helper('command').with(themis#helper('assert')).with({'Expect': g:Expect})
 call themis#option('exclude', 'test/README.md')
+call themis#helper('command').with(themis#helper('assert')).with({'Expect': g:Expect})

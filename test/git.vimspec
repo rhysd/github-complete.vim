@@ -1,0 +1,27 @@
+Describe git_complete#git
+    Describe #detect_github_repo()
+        Before all
+            let cd_save = getcwd()
+        End
+
+        After all
+            execute 'cd' cd_save
+        End
+
+        It detects user name and repository name for the current directory
+            let repo = github_complete#git#detect_github_repo("github.com")
+            " Note:
+            " When this repository is forked, below test will fail because of the
+            " difference of user name
+            Assert Equals(repo.user, "rhysd")
+            Assert Equals(repo.name, "github-complete.vim")
+        End
+
+        It returns empty dictionary on error
+            cd /
+
+            let repo = github_complete#git#detect_github_repo("github.com")
+            Assert True(empty(repo))
+        End
+    End
+End
