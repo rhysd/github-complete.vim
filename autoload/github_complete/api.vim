@@ -8,8 +8,8 @@ let s:O = s:vital['Data.Optional']
 
 let s:cache = {}
 
-function! s:api_error(error_response)
-    call github_complete#error('API request was failed with status ' . response.status . ': ' . response.statusText)
+function! s:api_error(res)
+    call github_complete#error('API request was failed with status ' . a:res.status . ': ' . a:res.statusText)
 endfunction
 
 function! github_complete#api#call(path, params)
