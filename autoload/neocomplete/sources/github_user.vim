@@ -4,7 +4,7 @@ set cpo&vim
 " Note:
 " github_issue controls its cache by itself
 let s:source = {
-\ 'name'        : 'github_issue',
+\ 'name'        : 'github_user',
 \ 'rank'        : 200,
 \ 'kind'        : 'manual',
 \ 'is_volatile' : 1,
@@ -12,14 +12,17 @@ let s:source = {
 \ }
 
 function! s:source.get_complete_position(context)
-    return strridx(a:context.input[:col('.')-1], '#')
+    return strridx(a:context.input[:col('.')-1], '@')
 endfunction
 
 function! s:source.gather_candidates(context)
-    return github_complete#issue#candidates_async('')
+    let input = a:context.input[:col('.')-1]
+    let idx = strridx(input, '@')
+    let base = input[idx:]
+    return github_complete#issue#candidates_async(base)
 endfunction
 
-function! neocomplete#sources#github_issue#define()
+function! neocomplete#sources#github_user#define()
     return s:source
 endfunction
 
