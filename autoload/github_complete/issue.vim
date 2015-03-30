@@ -48,9 +48,10 @@ function! s:gather_candidates(base, async)
         return []
     endif
 
-    let candidates = s:issues(repo.user, repo.name, a:async)
+    let candidates = filter(copy(s:issues(repo.user, repo.name, a:async)),
+                    \ 'stridx("#" . v:val.number, a:base) == 0')
 
-    return map(copy(candidates), '{
+    return map(candidates, '{
                 \ "word" : "#" . (g:github_complete#include_issue_title ? v:val.number . " " . v:val.title : v:val.number),
                 \ "abbr" : "#" . v:val.number . " " . v:val.title,
                 \ "menu" : "[issue]",
