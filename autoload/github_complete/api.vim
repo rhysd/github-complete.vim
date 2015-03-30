@@ -150,8 +150,7 @@ function! github_complete#api#get_cache(...)
 endfunction
 
 function! github_complete#api#debug_working_process()
-    let wp = s:working_processes
-    PP! wp
+    return s:working_processes
 endfunction
 
 let &cpo = s:save_cpo

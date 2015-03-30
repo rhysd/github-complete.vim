@@ -1,0 +1,65 @@
+function! s:set_first_line(str)
+    call setline(1, a:str)
+endfunction
+
+Describe 'github_complete#issue'
+    Describe #find_start()
+        It returns the column to start completion
+            call s:set_first_line(' aaa :bbb')
+            normal! gg$
+            Assert Equals(github_complete#issue#find_start(' aaa #4321'), 5)
+        End
+
+        It returns -1 when the column to start completion is not found
+            call s:set_first_line(' aaa bbb')
+            normal! gg$
+            Assert Equals(github_complete#issue#find_start(' aaa bbb'), -1)
+            call s:set_first_line(' aaa #abc')
+            normal! gg$
+            Assert Equals(github_complete#issue#find_start(' aaa #abc'), -1)
+        End
+    End
+
+    Describe #candidates()
+        It returns all issues
+            let cs = github_complete#issue#candidates('')
+            Assert IsList(cs)
+            Assert True(!empty(cs))
+            Assert True(cs[0].word =~# '#\d\+')
+        End
+
+        It caches previous candidates
+            call github_complete#api#reset_cache()
+            Assert True(empty(github_complete#api#get_cache()))
+
+            let cs = github_complete#issue#candidates('')
+
+            " Note:
+            " This test will fail if this repository is not original
+            Assert True(github_complete#api#is_cached('repos/rhysd/github-complete.vim/issues'))
+
+            Assert Equals(cs, github_complete#issue#candidates(''))
+        End
+
+        It narrows down candidates with base
+            let cs = github_complete#issue#candidates('#1')
+            Assert IsList(cs)
+            Assert True(!empty(cs))
+            for c in cs
+                Assert True(c.word =~# '^#1\d*')
+            endfor
+        End
+    End
+
+    Describe #fetch_issues()
+        It fetches the API call
+            Skip because I don't know how to install dependant plugins yet.
+
+            call github_complete#api#reset_cache()
+            let num_wps = len(github_complete#api#debug_working_process())
+            call github_complete#issue#fetch_issues()
+            verbose echom len(github_complete#api#debug_working_process())
+            Assert Equals(num_wps + 1, len(github_complete#api#debug_working_process()))
+        End
+    End
+End
