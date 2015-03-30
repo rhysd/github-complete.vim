@@ -1,6 +1,8 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+scriptencoding utf-8
+
 let s:japanese_map = {
   \ 'cyclone' : '台風',
   \ 'foggy' : '霧',
