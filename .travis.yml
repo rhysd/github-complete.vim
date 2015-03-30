@@ -3,7 +3,7 @@ install:
     - git clone https://github.com/thinca/vim-themis
     - git clone https://github.com/junegunn/vim-emoji.git
     - git clone https://github.com/Shougo/vimproc.vim.git
-    - cd vimproc.vim/ && make
+    - (cd vimproc.vim/ && make)
 before_script:
     - uname -a
     - vim --version
