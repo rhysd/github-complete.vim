@@ -1,0 +1,45 @@
+function! s:set_first_line(str)
+    call setline(1, a:str)
+endfunction
+
+Describe 'github_complete#user'
+    Describe #find_start()
+        It returns the column to start completion
+            call s:set_first_line(' aaa @bbb')
+            normal! gg$
+            Assert Equals(github_complete#user#find_start(' aaa @bbb'), 5)
+        End
+
+        It doesn't match without '@'
+            call s:set_first_line(' aaa bbb')
+            normal! gg$
+            Assert Equals(github_complete#user#find_start(' aaa bbb'), -1)
+        End
+
+        It doesn't match when no character is specified
+            call s:set_first_line(' aaa @')
+            normal! gg$
+            Assert Equals(github_complete#user#find_start(' aaa @'), -1)
+        End
+    End
+
+    Describe #candidates()
+        It returns all matched names
+            let cs =github_complete#user#candidates('@rhysd')
+            Assert IsList(cs)
+            Assert True(!empty(cs))
+            Assert True(cs[0].word =~# '^@\w\+$')
+        End
+
+        It caches previous candidates
+            call github_complete#api#reset_cache()
+            Assert True(empty(github_complete#api#get_cache()))
+
+            let cs = github_complete#user#candidates('@supermomonga')
+
+            Assert True(github_complete#api#is_cached('search/users', 'q=supermomonga+in:login'))
+            Assert Equals(cs, github_complete#user#candidates('@supermomonga'))
+        End
+
+    End
+End

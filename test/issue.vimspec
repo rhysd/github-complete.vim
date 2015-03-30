@@ -5,7 +5,7 @@ endfunction
 Describe 'github_complete#issue'
     Describe #find_start()
         It returns the column to start completion
-            call s:set_first_line(' aaa :bbb')
+            call s:set_first_line(' aaa #4321')
             normal! gg$
             Assert Equals(github_complete#issue#find_start(' aaa #4321'), 5)
         End
