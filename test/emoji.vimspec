@@ -1,5 +1,9 @@
 scriptencoding utf-8
 
+function! s:set_first_line(str)
+    call setline(1, a:str)
+endfunction
+
 Describe 'github_complete#emoji'
     Describe '#has_vim_emoji()'
         It returns false when vim-emoji is not installed
@@ -9,6 +13,20 @@ Describe 'github_complete#emoji'
         It returns true when vim-emoji is installed
             Skip because I don't know how to install dependant plugins yet.
             Assert True(github_complete#emoji#has_vim_emoji())
+        End
+    End
+
+    Describe #find_start()
+        It returns the column to start completion
+            call s:set_first_line(' aaa :bbb')
+            normal! gg$
+            Assert Equals(github_complete#emoji#find_start(' aaa :bbb'), 5)
+        End
+
+        It returns -1 when the column to start completion is not found
+            call s:set_first_line(' aaa bbb')
+            normal! gg$
+            Assert Equals(github_complete#emoji#find_start(' aaa bbb'), -1)
         End
     End
 
