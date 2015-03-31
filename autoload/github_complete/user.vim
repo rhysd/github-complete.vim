@@ -54,8 +54,8 @@ function! github_complete#user#candidates_async(base)
     return s:gather_candidates(a:base, 1)
 endfunction
 
-function! github_complete#issue#reset_cache()
-    call github_complete#api#reset_cache('search/users')
+function! github_complete#issue#reset_cache(param)
+    call github_complete#api#reset_cache('search/users', a:param)
 endfunction
 
 let &cpo = s:save_cpo

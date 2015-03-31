@@ -3,6 +3,7 @@ let g:github_complete#enable_neocomplete        = get(g:, 'github_complete#enabl
 let g:github_complete#enable_emoji_completion   = get(g:, 'github_complete#enable_emoji_completion', 1)
 let g:github_complete#enable_issue_completion   = get(g:, 'github_complete#enable_issue_completion', 1)
 let g:github_complete#enable_user_completion    = get(g:, 'github_complete#enable_user_completion', 1)
+let g:github_complete#enable_repo_completion    = get(g:, 'github_complete#enable_repo_completion', 1)
 let g:github_complete#include_issue_title       = get(g:, 'github_complete#include_issue_title', 0)
 let g:github_complete#max_issue_candidates      = get(g:, 'github_complete#max_issue_candidates', 100)
 let g:github_complete#git_cmd                   = get(g:, 'github_complete#git_cmd', 'git')
@@ -45,7 +46,7 @@ function! s:find_start_col()
     let line = getline('.')
     let s:completion_kind = ''
 
-    for kind in ['emoji', 'issue', 'user']
+    for kind in ['emoji', 'issue', 'user', 'repo']
         let c = github_complete#{kind}#find_start(line)
         if c >= 0
             let s:completion_kind = kind
@@ -61,12 +62,16 @@ function! github_complete#complete(findstart, base)
         return s:find_start_col()
     endif
 
-    if index(['emoji', 'issue', 'user'], s:completion_kind) >= 0
+    if index(['emoji', 'issue', 'user', 'repo'], s:completion_kind) >= 0
         return github_complete#{s:completion_kind}#candidates(a:base)
     endif
 
+    " Note:
+    " Show the result of 'emoji' and 'issue' completion only
+    " because 'user' and 'repo' are based on search query.
+    " 'base' is an entire line, it can't be a query for the search.
     let candidates = []
-    for kind in ['emoji', 'issue', 'user']
+    for kind in ['emoji', 'issue']
         let candidates += github_complete#{kind}#candidates(a:base)
     endfor
     return candidates
