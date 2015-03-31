@@ -12,14 +12,14 @@ let s:source = {
 \ }
 
 function! s:source.get_complete_position(context)
-    return strridx(a:context.input[:col('.')-1], '@')
+    return match(a:context.input[:col('.')-1], '\%(@\|\<github\.com/\zs\)\w\+$')
 endfunction
 
 function! s:source.gather_candidates(context)
     let input = a:context.input[:col('.')-1]
     let idx = strridx(input, '@')
     let base = input[idx:]
-    return github_complete#issue#candidates_async(base)
+    return github_complete#user#candidates_async(base)
 endfunction
 
 function! neocomplete#sources#github_user#define()

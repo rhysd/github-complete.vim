@@ -8,7 +8,7 @@ function! s:api_path_and_param(query)
 endfunction
 
 function! github_complete#user#find_start(input)
-    return github_complete#find_start(a:input, '\%(@\|\<github\.com/\zs\)\w\+$', 'user')
+    return github_complete#find_start(a:input, '\%(@\|\<github\.com/\zs\)[[:alnum:]-_]\+$', 'user')
 endfunction
 
 function! s:users(query, at_matched, async)
