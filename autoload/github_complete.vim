@@ -1,14 +1,21 @@
-let g:github_complete#overwrite_omnifunc        = get(g:, 'github_complete#overwrite_omnifunc', 1)
-let g:github_complete#enable_neocomplete        = get(g:, 'github_complete#enable_neocomplete', 0)
-let g:github_complete#enable_emoji_completion   = get(g:, 'github_complete#enable_emoji_completion', 1)
-let g:github_complete#enable_issue_completion   = get(g:, 'github_complete#enable_issue_completion', 1)
-let g:github_complete#enable_user_completion    = get(g:, 'github_complete#enable_user_completion', 1)
-let g:github_complete#enable_repo_completion    = get(g:, 'github_complete#enable_repo_completion', 1)
-let g:github_complete#include_issue_title       = get(g:, 'github_complete#include_issue_title', 0)
-let g:github_complete#max_issue_candidates      = get(g:, 'github_complete#max_issue_candidates', 100)
-let g:github_complete#git_cmd                   = get(g:, 'github_complete#git_cmd', 'git')
-let g:github_complete#fetch_issues_filetypes    = get(g:, 'github_complete#fetch_issues_filetypes', ['gitcommit'])
-let g:github_complete#emoji_japanese_workaround = get(g:, 'github_complete#emoji_japanese_workaround', 1)
+
+" Variables {{{
+function! s:set_global_var(name, default)
+    let g:github_complete#{a:name} = get(g:, 'github_complete#' . a:name, a:default)
+endfunction
+
+call s:set_global_var('overwrite_omnifunc', 1)
+call s:set_global_var('enable_neocomplete', 0)
+call s:set_global_var('enable_emoji_completion', 1)
+call s:set_global_var('enable_issue_completion', 1)
+call s:set_global_var('enable_user_completion', 1)
+call s:set_global_var('enable_repo_completion', 1)
+call s:set_global_var('include_issue_title', 0)
+call s:set_global_var('max_issue_candidates', 100)
+call s:set_global_var('git_cmd', 'git')
+call s:set_global_var('fetch_issues_filetypes', ['gitcommit'])
+call s:set_global_var('emoji_japanese_workaround', 1)
+" }}}
 
 function! github_complete#error(msg)
     echohl ErrorMsg
