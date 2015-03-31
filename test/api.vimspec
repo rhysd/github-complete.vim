@@ -30,16 +30,57 @@ Describe github_complete#api
 
     Describe #call_async_cached()
         It returns instantly and start fetching
-            let res =github_complete#api#call_async_cached("licenses", {})
+            let res =github_complete#api#call_async_cached("repos/rhysd/github-complete.vim/issues", {})
             Assert IsList(res)
             Assert True(empty(res))
 
-            5sleep
+            3sleep
 
-            let res =github_complete#api#call_async_cached("licenses", {})
+            let res =github_complete#api#call_async_cached("repos/rhysd/github-complete.vim/issues", {})
             Assert IsList(res)
             Assert True(!empty(res))
             Assert True(res[0].url =~# '^https://')
         End
     End
+
+    Describe #get_cache()
+        Before all
+            call github_complete#api#call_cached("emojis", {})
+        End
+
+        It returns all cache
+            let cache = github_complete#api#get_cache()
+            Assert True(!empty(cache))
+            Assert True(has_key(cache, 'emojis{}'))
+        End
+
+        It returns specific cache
+            let cache = github_complete#api#get_cache('emojis', {})
+            Assert True(!empty(cache))
+
+            let cache = github_complete#api#get_cache('emojis{}')
+            Assert True(!empty(cache))
+        End
+
+        It returns empty result if the cache doesn't exist
+            Assert True(empty(github_complete#api#get_cache('poyopoyopoyo')))
+        End
+    End
+
+    Describe #get_cache()
+        It removes all cache
+            call github_complete#api#call_cached("emojis", {})
+            Assert True(!empty(github_complete#api#get_cache()))
+            call github_complete#api#reset_cache()
+            Assert True(empty(github_complete#api#get_cache()))
+        End
+
+        It removes specific cache
+            call github_complete#api#call_cached("emojis", {})
+            Assert True(!empty(github_complete#api#get_cache('emojis', {})))
+            call github_complete#api#reset_cache('emojis', {})
+            Assert True(empty(github_complete#api#get_cache('emojis', {})))
+        End
+    End
+
 End
