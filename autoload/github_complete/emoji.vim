@@ -17,10 +17,6 @@ function! github_complete#emoji#find_start(input)
     return github_complete#find_start(a:input, ':\w*$', 'emoji')
 endfunction
 
-function! github_complete#emoji#is_available(base)
-    return a:base =~# '^:\w*$'
-endfunctio
-
 function! s:abbr_workaround(emoji)
     if !g:github_complete#emoji_japanese_workaround
         return ''

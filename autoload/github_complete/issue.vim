@@ -26,10 +26,6 @@ function! github_complete#issue#find_start(input)
     return github_complete#find_start(a:input, '#\d*$', 'issue')
 endfunction
 
-function! github_complete#issue#is_available(base)
-    return a:base =~# '^#\d*$'
-endfunction
-
 function! github_complete#issue#reset_cache(...)
     call call('github_complete#api#reset_cache', a:000)
 endfunction

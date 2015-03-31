@@ -11,10 +11,6 @@ function! github_complete#user#find_start(input)
     return github_complete#find_start(a:input, '@\w\+$', 'user')
 endfunction
 
-function! github_complete#user#is_available(base)
-    return a:base =~# '^@\w\+$'
-endfunction
-
 function! s:users(query, async)
     let [path, params] = s:api_path_and_param(a:query)
 

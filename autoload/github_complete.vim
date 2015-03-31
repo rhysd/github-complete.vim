@@ -22,15 +22,11 @@ function! github_complete#find_start(input, pattern, completion)
 
     let c = col('.')
 
-    if a:input ==# ''
+    if a:input ==# '' || c == 1
         return -1
     endif
 
-    let offset = c == 1 ? 1 : 2
-
-    " Note: Consider the case when the cursor is at the end of line
-
-    return match(a:input[:c - offset], a:pattern)
+    return match(a:input[:c - 2], a:pattern)
 endfunction
 
 function! github_complete#import_vital()
@@ -47,10 +43,12 @@ endfunction
 
 function! s:find_start_col()
     let line = getline('.')
+    let s:completion_kind = ''
 
     for kind in ['emoji', 'issue', 'user']
         let c = github_complete#{kind}#find_start(line)
         if c >= 0
+            let s:completion_kind = kind
             return c
         endif
     endfor
@@ -63,11 +61,9 @@ function! github_complete#complete(findstart, base)
         return s:find_start_col()
     endif
 
-    for kind in ['emoji', 'issue', 'user']
-        if github_complete#{kind}#is_available(a:base)
-            return github_complete#{kind}#candidates(a:base)
-        endif
-    endfor
+    if index(['emoji', 'issue', 'user'], s:completion_kind) >= 0
+        return github_complete#{s:completion_kind}#candidates(a:base)
+    endif
 
     let candidates = []
     for kind in ['emoji', 'issue', 'user']
