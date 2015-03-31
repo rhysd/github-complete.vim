@@ -1,4 +1,4 @@
-Describe git_complete#git
+Describe #git
     Describe #detect_github_repo()
         Before all
             let cd_save = getcwd()

@@ -2,7 +2,7 @@ function! s:set_first_line(str)
     call setline(1, a:str)
 endfunction
 
-Describe 'github_complete#repo'
+Describe '#repo'
     Describe #find_start()
         It returns the column to start completion
             call s:set_first_line(' aaa foo/bar')

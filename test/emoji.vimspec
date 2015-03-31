@@ -4,7 +4,7 @@ function! s:set_first_line(str)
     call setline(1, a:str)
 endfunction
 
-Describe 'github_complete#emoji'
+Describe '#emoji'
     Describe '#has_vim_emoji()'
         It returns true when vim-emoji is installed
             runtime! autoload/emoji.vim
@@ -65,7 +65,7 @@ Describe 'github_complete#emoji'
     End
 End
 
-Describe 'github_complete#workaround#japanese'
+Describe '#workaround#japanese'
     Describe '#for()'
         It returns japanese description for emojis
             if !github_complete#emoji#has_vim_emoji()

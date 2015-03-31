@@ -1,4 +1,4 @@
-Describe github_complete#api
+Describe #api
     Describe #call_cached()
         It returns success for valid issue API call
             let res = github_complete#api#call_cached("repos/rhysd/clever-f.vim/issues", {})
