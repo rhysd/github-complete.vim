@@ -7,3 +7,10 @@ $ cd path/to/github-complete.vim
 $ git clone https://github.com/thinca/vim-themis
 $ ./vim-themis/bin/themis test/
 ```
+
+To use [guard](https://github.com/guard/guard), execute `guard` at the root of directory.
+
+```sh
+$ cd path/to/github-complete.vim
+$ guard --guardfile test/Guardfile
+```

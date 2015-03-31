@@ -1,4 +1,6 @@
 let g:Expect = themis#helper('expect')
+let g:root_dir = fnamemodify(expand('<sfile>'), ':h:h')
 
 call themis#option('exclude', 'test/README.md')
+call themis#option('exclude', 'test/Guardfile')
 call themis#helper('command').with(themis#helper('assert')).with({'Expect': g:Expect})
