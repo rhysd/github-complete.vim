@@ -4,7 +4,7 @@ endfunction
 
 Describe 'github_complete#user'
     Describe #find_start()
-        It returns the column to start completion
+        It returns the column to start completion before '@'
             call s:set_first_line(' aaa @bbb')
             normal! gg$
             Assert Equals(github_complete#user#find_start(' aaa @bbb'), 5)
@@ -18,7 +18,17 @@ Describe 'github_complete#user'
             Assert Equals(github_complete#user#find_start(' a @bbb)'), 3)
         End
 
-        It doesn't match without '@'
+        It returns the column to start completion before github.com host
+            call s:set_first_line(' aaa https://github.com/rhy')
+            normal! gg$
+            Assert Equals(github_complete#user#find_start(' aaa https://github.com/rhy'), 24)
+
+            call s:set_first_line(' aa https://github.com/rhy bbb')
+            normal! gg$Ty
+            Assert Equals(github_complete#user#find_start(' aa https://github.com/rhy bbb'), 23)
+        End
+
+        It doesn't match except for other cases
             call s:set_first_line(' aaa bbb')
             normal! gg$
             Assert Equals(github_complete#user#find_start(' aaa bbb'), -1)
@@ -32,11 +42,19 @@ Describe 'github_complete#user'
     End
 
     Describe #candidates()
-        It returns all matched names
-            let cs =github_complete#user#candidates('@rhysd')
+        It returns all matched '@' names
+            let cs = github_complete#user#candidates('@rhysd')
             Assert IsList(cs)
             Assert True(!empty(cs))
             Assert True(cs[0].word =~# '^@\w\+$')
+        End
+
+        It returns all matched names after github.com host
+            " Note: when github.com/foo is found, base will be 'foo'
+            let cs = github_complete#user#candidates('rhysd')
+            Assert IsList(cs)
+            Assert True(!empty(cs))
+            Assert True(cs[0].word =~# '^\w\+$')
         End
 
         It caches previous candidates

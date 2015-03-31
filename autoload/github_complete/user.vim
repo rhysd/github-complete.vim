@@ -8,10 +8,10 @@ function! s:api_path_and_param(query)
 endfunction
 
 function! github_complete#user#find_start(input)
-    return github_complete#find_start(a:input, '@\w\+$', 'user')
+    return github_complete#find_start(a:input, '\%(@\|\<github\.com/\zs\)\w\+$', 'user')
 endfunction
 
-function! s:users(query, async)
+function! s:users(query, at_matched, async)
     let [path, params] = s:api_path_and_param(a:query)
 
     let func = a:async ?
@@ -20,7 +20,9 @@ function! s:users(query, async)
 
     let ret = call(func, [path, params])
     let response = type(ret) == type({}) ? ret.items : ret
-    return map(copy(response), '"@" . v:val.login')
+    let prefix = a:at_matched ? "@" : ""
+
+    return map(copy(response), 'prefix . v:val.login')
 endfunction
 
 function! s:gather_candidates(base, async)
@@ -28,13 +30,15 @@ function! s:gather_candidates(base, async)
         return []
     endif
 
-    let query = a:base =~# '^@' ? a:base[1:] : a:base
+    let at_matched = a:base =~# '^@'
+
+    let query = at_matched ? a:base[1:] : a:base
 
     if query ==# ''
         return []
     endif
 
-    let candidates = filter(s:users(query, a:async), 'stridx(v:val, a:base) == 0')
+    let candidates = filter(s:users(query, at_matched, a:async), 'stridx(v:val, a:base) == 0')
 
     return map(candidates, '{
                 \ "word" : v:val,
