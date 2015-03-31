@@ -62,12 +62,9 @@ Describe 'github_complete#issue'
 
     Describe #fetch_issues()
         It fetches the API call
-            Skip because I don't know how to install dependant plugins yet.
-
             call github_complete#api#reset_cache()
             let num_wps = len(github_complete#api#debug_working_process())
             call github_complete#issue#fetch_issues()
-            verbose echom len(github_complete#api#debug_working_process())
             Assert Equals(num_wps + 1, len(github_complete#api#debug_working_process()))
         End
     End

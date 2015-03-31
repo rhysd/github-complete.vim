@@ -6,13 +6,14 @@ endfunction
 
 Describe 'github_complete#emoji'
     Describe '#has_vim_emoji()'
-        It returns false when vim-emoji is not installed
-            Assert False(github_complete#emoji#has_vim_emoji())
-        End
-
         It returns true when vim-emoji is installed
-            Skip because I don't know how to install dependant plugins yet.
-            Assert True(github_complete#emoji#has_vim_emoji())
+            runtime! autoload/emoji.vim
+
+            if exists('*emoji#available')
+                Assert True(github_complete#emoji#has_vim_emoji())
+            else
+                Assert False(github_complete#emoji#has_vim_emoji())
+            endif
         End
     End
 
@@ -43,17 +44,19 @@ Describe 'github_complete#emoji'
     End
 
     Describe #candidates()
-        It returns empty list when vim-emoji is not installed
-            Assert True(empty(github_complete#emoji#candidates('')))
-        End
-
         It returns all emojis list when base is not specified
-            Skip because I don't know how to install dependant plugins yet.
-            Assert True(!empty(github_complete#emoji#candidates('')))
+            if github_complete#emoji#has_vim_emoji()
+                Assert True(!empty(github_complete#emoji#candidates('')))
+            else
+                Assert True(empty(github_complete#emoji#candidates('')))
+            endif
         End
 
         It returns base-prefixed emojis list when base is specified
-            Skip because I don't know how to install dependant plugins yet.
+            if !github_complete#emoji#has_vim_emoji()
+                Skip because vim-emoji is not installed
+            endif
+
             let emojis = github_complete#emoji#candidates(':do')
             for e in emojis
                 Assert True(e.word =~# '^:do')
@@ -65,11 +68,19 @@ End
 Describe 'github_complete#workaround#japanese'
     Describe '#for()'
         It returns japanese description for emojis
+            if !github_complete#emoji#has_vim_emoji()
+                Skip because vim-emoji is not installed
+            endif
+
             Assert Equals(github_complete#workaround#japanese#for('dog'), '猟犬')
             Assert Equals(github_complete#workaround#japanese#for('dog2'), '犬')
         End
 
         It returns empty string for undefined emoji
+            if !github_complete#emoji#has_vim_emoji()
+                Skip because vim-emoji is not installed
+            endif
+
             Assert Equals(github_complete#workaround#japanese#for('unknown_mysterious_animal'), '')
         End
     End

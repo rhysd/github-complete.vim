@@ -30,8 +30,6 @@ Describe github_complete#api
 
     Describe #call_async_cached()
         It returns instantly and start fetching
-            Skip because I don't know how to install dependant plugins yet.
-
             let res =github_complete#api#call_async_cached("licenses", {})
             Assert IsList(res)
             Assert True(empty(res))

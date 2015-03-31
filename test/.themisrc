@@ -4,3 +4,11 @@ let g:root_dir = fnamemodify(expand('<sfile>'), ':h:h')
 call themis#option('exclude', 'test/README.md')
 call themis#option('exclude', 'test/Guardfile')
 call themis#helper('command').with(themis#helper('assert')).with({'Expect': g:Expect})
+
+for s:rtp in ['~/.vim/bundle/vimproc.vim', '~/.vim/bundle/vim-emoji', 'vimproc.vim', 'vim-emoji']
+    let r = expand(s:rtp)
+    if isdirectory(r)
+        let &rtp = r . ',' . &rtp
+    endif
+endfor
+unlet! s:rtp
