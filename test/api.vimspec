@@ -44,7 +44,7 @@ Describe #api
     End
 
     Describe #get_cache()
-        Before all
+        Before each
             call github_complete#api#call_cached("emojis", {})
         End
 
@@ -68,15 +68,17 @@ Describe #api
     End
 
     Describe #get_cache()
-        It removes all cache
+        Before each
             call github_complete#api#call_cached("emojis", {})
+        End
+
+        It removes all cache
             Assert True(!empty(github_complete#api#get_cache()))
             call github_complete#api#reset_cache()
             Assert True(empty(github_complete#api#get_cache()))
         End
 
         It removes specific cache
-            call github_complete#api#call_cached("emojis", {})
             Assert True(!empty(github_complete#api#get_cache('emojis', {})))
             call github_complete#api#reset_cache('emojis', {})
             Assert True(empty(github_complete#api#get_cache('emojis', {})))
