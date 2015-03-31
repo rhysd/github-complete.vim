@@ -23,10 +23,7 @@ function! s:issues(user, repo, async)
 endfunction
 
 function! github_complete#issue#find_start(input)
-    if !g:github_complete#enable_issue_completion
-        return -1
-    endif
-    return match(a:input[:col('.') - 1], '#\d*$')
+    return github_complete#find_start(a:input, '#\d*$', 'issue')
 endfunction
 
 function! github_complete#issue#is_available(base)

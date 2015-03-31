@@ -21,6 +21,18 @@ Describe 'github_complete#emoji'
             call s:set_first_line(' aaa :bbb')
             normal! gg$
             Assert Equals(github_complete#emoji#find_start(' aaa :bbb'), 5)
+
+            call s:set_first_line(' aa :bbb poyo')
+            normal! gg$Tb
+            Assert Equals(github_complete#emoji#find_start(' aa :bbb poyo'), 4)
+
+            call s:set_first_line(' a :bbb)')
+            normal! gg$
+            Assert Equals(github_complete#emoji#find_start(' a :bbb)'), 3)
+
+            call s:set_first_line(':)')
+            normal! gg$
+            Assert Equals(github_complete#emoji#find_start(':)'), 0)
         End
 
         It returns -1 when the column to start completion is not found

@@ -8,10 +8,7 @@ function! s:api_path_and_param(query)
 endfunction
 
 function! github_complete#user#find_start(input)
-    if !g:github_complete#enable_user_completion
-        return -1
-    endif
-    return match(a:input[:col('.') - 1], '@\w\+$')
+    return github_complete#find_start(a:input, '@\w\+$', 'user')
 endfunction
 
 function! github_complete#user#is_available(base)

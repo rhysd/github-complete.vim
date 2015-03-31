@@ -8,6 +8,14 @@ Describe 'github_complete#user'
             call s:set_first_line(' aaa @bbb')
             normal! gg$
             Assert Equals(github_complete#user#find_start(' aaa @bbb'), 5)
+
+            call s:set_first_line(' aa @bbb ccc')
+            normal! gg$Tb
+            Assert Equals(github_complete#user#find_start(' aa @bbb ccc'), 4)
+
+            call s:set_first_line(' a @bbb)')
+            normal! gg$Tb
+            Assert Equals(github_complete#user#find_start(' a @bbb)'), 3)
         End
 
         It doesn't match without '@'

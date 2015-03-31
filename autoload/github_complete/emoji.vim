@@ -14,15 +14,12 @@ function! github_complete#emoji#has_vim_emoji()
 endfunction
 
 function! github_complete#emoji#find_start(input)
-    if !g:github_complete#enable_emoji_completion
-        return -1
-    endif
-    return match(a:input[:col('.') - 1], ':\w*$')
+    return github_complete#find_start(a:input, ':\w*$', 'emoji')
 endfunction
 
 function! github_complete#emoji#is_available(base)
     return a:base =~# '^:\w*$'
-endfunction
+endfunctio
 
 function! s:abbr_workaround(emoji)
     if !g:github_complete#emoji_japanese_workaround

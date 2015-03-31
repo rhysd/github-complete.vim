@@ -8,12 +8,25 @@ Describe 'github_complete#issue'
             call s:set_first_line(' aaa #4321')
             normal! gg$
             Assert Equals(github_complete#issue#find_start(' aaa #4321'), 5)
+
+            call s:set_first_line(' aa #4321)')
+            normal! gg$
+            Assert Equals(github_complete#issue#find_start(' aa #4321)'), 4)
+
+            call s:set_first_line(' aa #4321)!')
+            normal! gg$h
+            Assert Equals(github_complete#issue#find_start(' aa #4321)!'), 4)
+
+            call s:set_first_line('#')
+            normal! gg$
+            Assert Equals(github_complete#issue#find_start('#'), 0)
         End
 
         It returns -1 when the column to start completion is not found
             call s:set_first_line(' aaa bbb')
             normal! gg$
             Assert Equals(github_complete#issue#find_start(' aaa bbb'), -1)
+
             call s:set_first_line(' aaa #abc')
             normal! gg$
             Assert Equals(github_complete#issue#find_start(' aaa #abc'), -1)

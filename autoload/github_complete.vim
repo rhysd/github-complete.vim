@@ -1,18 +1,36 @@
-let g:github_complete#overwrite_omnifunc      = get(g:, 'github_complete#overwrite_omnifunc', 1)
-let g:github_complete#enable_neocomplete      = get(g:, 'github_complete#enable_neocomplete', 0)
-let g:github_complete#enable_emoji_completion = get(g:, 'github_complete#enable_emoji_completion', 1)
-let g:github_complete#enable_issue_completion = get(g:, 'github_complete#enable_issue_completion', 1)
-let g:github_complete#enable_user_completion = get(g:, 'github_complete#enable_user_completion', 1)
-let g:github_complete#include_issue_title     = get(g:, 'github_complete#include_issue_title', 0)
-let g:github_complete#max_issue_candidates    = get(g:, 'github_complete#max_issue_candidates', 100)
-let g:github_complete#git_cmd                 = get(g:, 'github_complete#git_cmd', 'git')
-let g:github_complete#fetch_issues_filetypes  = get(g:, 'github_complete#fetch_issues_filetypes', ['gitcommit'])
+let g:github_complete#overwrite_omnifunc        = get(g:, 'github_complete#overwrite_omnifunc', 1)
+let g:github_complete#enable_neocomplete        = get(g:, 'github_complete#enable_neocomplete', 0)
+let g:github_complete#enable_emoji_completion   = get(g:, 'github_complete#enable_emoji_completion', 1)
+let g:github_complete#enable_issue_completion   = get(g:, 'github_complete#enable_issue_completion', 1)
+let g:github_complete#enable_user_completion    = get(g:, 'github_complete#enable_user_completion', 1)
+let g:github_complete#include_issue_title       = get(g:, 'github_complete#include_issue_title', 0)
+let g:github_complete#max_issue_candidates      = get(g:, 'github_complete#max_issue_candidates', 100)
+let g:github_complete#git_cmd                   = get(g:, 'github_complete#git_cmd', 'git')
+let g:github_complete#fetch_issues_filetypes    = get(g:, 'github_complete#fetch_issues_filetypes', ['gitcommit'])
 let g:github_complete#emoji_japanese_workaround = get(g:, 'github_complete#emoji_japanese_workaround', 1)
 
 function! github_complete#error(msg)
     echohl ErrorMsg
     echomsg 'github-complete.vim: ' . a:msg
     echohl None
+endfunction
+
+function! github_complete#find_start(input, pattern, completion)
+    if !g:github_complete#enable_{a:completion}_completion
+        return -1
+    endif
+
+    let c = col('.')
+
+    if a:input ==# ''
+        return -1
+    endif
+
+    let offset = c == 1 ? 1 : 2
+
+    " Note: Consider the case when the cursor is at the end of line
+
+    return match(a:input[:c - offset], a:pattern)
 endfunction
 
 function! github_complete#import_vital()
