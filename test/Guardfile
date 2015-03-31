@@ -16,7 +16,18 @@ def notify m
 end
 
 guard :shell do
-  watch /^(.+\.vim)$/ do |m|
-    notify "test failed" unless system "./vim-themis/bin/themis", "test/"
+  watch /^.+\.vim$/ do |m|
+    spec = "./test/#{File.basename m[0]}spec"
+    if File.exists? spec
+      puts "start #{spec}"
+      notify "#{spec} failed" unless system "./vim-themis/bin/themis", spec
+    else
+      puts "#{spec} is not found"
+    end
+  end
+
+  watch /^.+\.vimspec$/ do |m|
+      puts "start #{m[0]}"
+    notify "#{m[0]} failed" unless system "./vim-themis/bin/themis", m[0]
   end
 end
