@@ -13,7 +13,7 @@ call s:set_global_var('enable_repo_completion', 1)
 call s:set_global_var('include_issue_title', 0)
 call s:set_global_var('max_issue_candidates', 100)
 call s:set_global_var('git_cmd', 'git')
-call s:set_global_var('fetch_issues_filetypes', ['gitcommit'])
+call s:set_global_var('fetch_issue_api_filetypes', ['gitcommit'])
 call s:set_global_var('emoji_japanese_workaround', 1)
 call s:set_global_var('fallback_omnifunc', '')
 " }}}

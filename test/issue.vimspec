@@ -48,11 +48,22 @@ Describe '#issue'
     End
 
     Describe #fetch_issues()
-        It fetches the API call
+        Before each
             call github_complete#api#reset_cache()
-            let num_wps = len(github_complete#api#debug_working_process())
+        End
+
+        It fetches the API call
+            let ps = github_complete#api#debug_working_process()
+            let ps = {}
             call github_complete#issue#fetch_issues()
-            Assert Equals(num_wps + 1, len(github_complete#api#debug_working_process()))
+            Assert True(!empty(github_complete#api#debug_working_process()))
+        End
+
+        It is called at gitcommit filetype
+            let ps = github_complete#api#debug_working_process()
+            let ps = {}
+            doautocmd FileType gitcommit
+            Assert True(!empty(github_complete#api#debug_working_process()))
         End
     End
 End
