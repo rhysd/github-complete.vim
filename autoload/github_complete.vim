@@ -15,6 +15,7 @@ call s:set_global_var('max_issue_candidates', 100)
 call s:set_global_var('git_cmd', 'git')
 call s:set_global_var('fetch_issues_filetypes', ['gitcommit'])
 call s:set_global_var('emoji_japanese_workaround', 1)
+call s:set_global_var('fallback_omnifunc', '')
 " }}}
 
 function! github_complete#error(msg)
@@ -61,6 +62,11 @@ function! s:find_start_col()
         endif
     endfor
 
+    if g:github_complete#fallback_omnifunc != ''
+        " Note: findstart and base are always 1 and '' here.
+        return call(g:github_complete#fallback_omnifunc, [1, ''])
+    endif
+
     return col('.') - 1
 endfunction
 
@@ -71,6 +77,10 @@ function! github_complete#complete(findstart, base)
 
     if index(['emoji', 'issue', 'user', 'repo'], s:completion_kind) >= 0
         return github_complete#{s:completion_kind}#candidates(a:base)
+    endif
+
+    if g:github_complete#fallback_omnifunc != ''
+        return call(g:github_complete#fallback_omnifunc, [a:findstart, a:base])
     endif
 
     " Note:

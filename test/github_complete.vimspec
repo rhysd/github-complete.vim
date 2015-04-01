@@ -11,6 +11,14 @@ function! s:do_completion(line_text, base)
     return [start, cs]
 endfunction
 
+function! AltOmniFunction(findstart, base)
+    if a:findstart == 1
+        return 42
+    endif
+
+    return map(['foo', 'bar'], '{"word" : v:val}')
+endfunction
+
 Describe #complete()
     After each
         normal! ggdG
@@ -86,5 +94,16 @@ Describe #complete()
         for c in cs
             Assert Match(c.word, '^rhysd/cle')
         endfor
+    End
+
+    It fallbacks to other omni functions if g:github_complete#fallback_omnifunc is set
+        let saved = g:github_complete#fallback_omnifunc
+        let g:github_complete#fallback_omnifunc = 'AltOmniFunction'
+
+        let [s, cs] = s:do_completion("aaa bbb ccc", "ccc")
+        Assert Equals(s, 42)
+        Assert True(!empty(cs))
+        Assert Equals(cs, [{"word" : "foo"}, {"word" : "bar"}])
+        let g:github_complete#fallback_omnifunc = saved
     End
 End
