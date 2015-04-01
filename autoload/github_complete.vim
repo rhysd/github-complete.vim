@@ -4,7 +4,7 @@ function! s:set_global_var(name, default)
     let g:github_complete#{a:name} = get(g:, 'github_complete#' . a:name, a:default)
 endfunction
 
-call s:set_global_var('overwrite_omnifunc', 1)
+call s:set_global_var('overwrite_omnifunc', 0)
 call s:set_global_var('enable_neocomplete', 0)
 call s:set_global_var('enable_emoji_completion', 1)
 call s:set_global_var('enable_issue_completion', 1)
@@ -14,7 +14,7 @@ call s:set_global_var('include_issue_title', 0)
 call s:set_global_var('max_issue_candidates', 100)
 call s:set_global_var('git_cmd', 'git')
 call s:set_global_var('fetch_issue_api_filetypes', ['gitcommit'])
-call s:set_global_var('emoji_japanese_workaround', 1)
+call s:set_global_var('emoji_japanese_workaround', 0)
 call s:set_global_var('fallback_omnifunc', '')
 " }}}
 
