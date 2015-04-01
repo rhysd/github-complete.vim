@@ -5,39 +5,22 @@ endfunction
 Describe '#user'
     Describe #find_start()
         It returns the column to start completion before '@'
-            call s:set_first_line(' aaa @bbb')
-            normal! gg$
-            Assert Equals(github_complete#user#find_start(' aaa @bbb'), 5)
-
-            call s:set_first_line(' aa @bbb ccc')
-            normal! gg$Tb
-            Assert Equals(github_complete#user#find_start(' aa @bbb ccc'), 4)
-
-            call s:set_first_line(' a @bbb)')
-            normal! gg$Tb
-            Assert Equals(github_complete#user#find_start(' a @bbb)'), 3)
+            Assert Equals(FindStart('user', ' aaa @bbb'), 5)
+            Assert Equals(FindStart('user', ' aa @bbb ccc', 'gg$Tb'), 4)
+            Assert Equals(FindStart('user', ' a @bbb)', 'gg$Tb'), 3)
         End
 
         It returns the column to start completion before github.com host
-            call s:set_first_line(' aaa https://github.com/rhy')
-            normal! gg$
-            Assert Equals(github_complete#user#find_start(' aaa https://github.com/rhy'), 24)
-
-            call s:set_first_line(' aa https://github.com/rhy bbb')
-            normal! gg$Ty
-            Assert Equals(github_complete#user#find_start(' aa https://github.com/rhy bbb'), 23)
+            Assert Equals(FindStart('user', ' aaa https://github.com/rhy'), 24)
+            Assert Equals(FindStart('user', ' aa https://github.com/rhy bbb', 'gg$Ty'), 23)
         End
 
         It doesn't match except for other cases
-            call s:set_first_line(' aaa bbb')
-            normal! gg$
-            Assert Equals(github_complete#user#find_start(' aaa bbb'), -1)
+            Assert Equals(FindStart('user', ' aaa bbb'), -1)
         End
 
         It doesn't match when no character is specified
-            call s:set_first_line(' aaa @')
-            normal! gg$
-            Assert Equals(github_complete#user#find_start(' aaa @'), -1)
+            Assert Equals(FindStart('user', ' aaa @'), -1)
         End
     End
 

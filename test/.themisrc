@@ -1,5 +1,5 @@
 let g:Expect = themis#helper('expect')
-let g:root_dir = fnamemodify(expand('<sfile>'), ':h:h')
+let g:repo_root = fnamemodify(expand('<sfile>'), ':h:h')
 
 call themis#option('exclude', 'test/README.md')
 call themis#option('exclude', 'test/Guardfile')
@@ -8,7 +8,27 @@ call themis#helper('command').with(themis#helper('assert')).with({'Expect': g:Ex
 for s:rtp in ['~/.vim/bundle/vimproc.vim', '~/.vim/bundle/vim-emoji', 'vimproc.vim', 'vim-emoji']
     let r = expand(s:rtp)
     if isdirectory(r)
-        let &rtp = r . ',' . &rtp
+        call themis#option('runtimepath', r)
     endif
 endfor
 unlet! s:rtp
+
+function! SetFirstLine(str)
+    call setline(1, a:str)
+endfunction
+
+
+function! FindStart(completion_name, line_text, ...)
+    call SetFirstLine(a:line_text)
+
+    if a:0 > 0
+        execute 'normal!' a:1
+    else
+        normal! gg$
+    endif
+
+    let c = github_complete#{a:completion_name}#find_start(a:line_text)
+    normal! ggdd
+
+    return c
+endfunction

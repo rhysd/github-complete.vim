@@ -5,35 +5,16 @@ endfunction
 Describe '#repo'
     Describe #find_start()
         It returns the column to start completion
-            call s:set_first_line(' aaa foo/bar')
-            normal! gg$
-            Assert Equals(github_complete#repo#find_start(' aaa foo/bar'), 5)
-
-            call s:set_first_line(' aa f-o/bar baz')
-            normal! gg$Tr
-            Assert Equals(github_complete#repo#find_start(' aa foo/bar baz'), 4)
-
-            call s:set_first_line(' a _oo/bar)')
-            normal! gg$
-            Assert Equals(github_complete#repo#find_start(' a foo/bar)'), 3)
+            Assert Equals(FindStart('repo', ' aaa foo/bar'), 5)
+            Assert Equals(FindStart('repo', ' aa f-o/bar baz', 'gg$Tr'), 4)
+            Assert Equals(FindStart('repo', ' a _oo/bar)'), 3)
         End
 
         It returns -1 when the column to start completion is not found
-            call s:set_first_line(' a oo')
-            normal! gg$
-            Assert Equals(github_complete#repo#find_start(' a oo'), -1)
-
-            call s:set_first_line(' a/')
-            normal! gg$
-            Assert Equals(github_complete#repo#find_start(' a/'), -1)
-
-            call s:set_first_line(' /a')
-            normal! gg$
-            Assert Equals(github_complete#repo#find_start(' /a'), -1)
-
-            call s:set_first_line(' a.b/c.d')
-            normal! gg$
-            Assert Equals(github_complete#repo#find_start(' a.b/c.d'), -1)
+            Assert Equals(FindStart('repo', ' a oo'), -1)
+            Assert Equals(FindStart('repo', ' a/'), -1)
+            Assert Equals(FindStart('repo', ' /a'), -1)
+            Assert Equals(FindStart('repo', ' a.b/c.d'), -1)
         End
     End
 

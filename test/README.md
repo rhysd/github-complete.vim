@@ -8,7 +8,7 @@ $ git clone https://github.com/thinca/vim-themis
 $ ./vim-themis/bin/themis test/
 ```
 
-To use [guard](https://github.com/guard/guard), execute `guard` at the root of directory.
+To use [guard](https://github.com/guard/guard), execute `guard` at the root of repository.
 
 ```sh
 $ cd path/to/github-complete.vim

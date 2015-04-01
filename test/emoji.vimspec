@@ -19,27 +19,14 @@ Describe '#emoji'
 
     Describe #find_start()
         It returns the column to start completion
-            call s:set_first_line(' aaa :bbb')
-            normal! gg$
-            Assert Equals(github_complete#emoji#find_start(' aaa :bbb'), 5)
-
-            call s:set_first_line(' aa :bbb poyo')
-            normal! gg$Tb
-            Assert Equals(github_complete#emoji#find_start(' aa :bbb poyo'), 4)
-
-            call s:set_first_line(' a :bbb)')
-            normal! gg$
-            Assert Equals(github_complete#emoji#find_start(' a :bbb)'), 3)
-
-            call s:set_first_line(':)')
-            normal! gg$
-            Assert Equals(github_complete#emoji#find_start(':)'), 0)
+            Assert Equals(FindStart('emoji', ' aaa :bbb'), 5)
+            Assert Equals(FindStart('emoji', ' aa :bbb poyo', 'gg$Tb'), 4)
+            Assert Equals(FindStart('emoji', ' a :bbb)'), 3)
+            Assert Equals(FindStart('emoji', ':)'), 0)
         End
 
         It returns -1 when the column to start completion is not found
-            call s:set_first_line(' aaa bbb')
-            normal! gg$
-            Assert Equals(github_complete#emoji#find_start(' aaa bbb'), -1)
+            Assert Equals(FindStart('emoji', ' aaa bbb'), -1)
         End
     End
 
