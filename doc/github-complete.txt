@@ -14,6 +14,7 @@ Usage                   |github-complete.vim-usage|
   Repository Completion   |github-complete.vim-usage-repository-completion|
 Variables               |github-complete.vim-variables|
 Neocomplete Sources     |github-complete.vim-neocomplete-sources|
+Recommended Plugin      |github-complete.vim-recommended-plugin|
 Repository              |github-complete.vim-repository-page|
 License                 |github-complete.vim-lisence|
 
@@ -67,7 +68,7 @@ configuration.  Otherwise, set "github_complete#complete" to 'omnifunc' in
 your favorite filetypes in your |vimrc|.
 Please be sure the proper 'omnifunc' is set with ":set omnifunc" in intended
 filetypes.
-
+For example, follosing code sets 'omnifunc' in "gitcommit" filetype
 >
     augroup config-github-complete
         autocmd!
@@ -144,62 +145,95 @@ VARIABLES                                        *github-complete.vim-variables*
 |github-complete| provides many variables to customize the behavior of
 completions.
 
-Note: Documentation is incomplete. TODO.
-
 g:github_complete#overwrite_omnifunc      *g:github_complete#overwrite_omnifunc*
 
+    When 1 is set to the variable, |github-complete.vim| set 'omnifunc' in
+    "gitcommit" and "markdown" filetypes even if other omnifunction is already
+    set.
     Default value is 0.
 
 g:github_complete#enable_neocomplete      *g:github_complete#enable_neocomplete*
 
+    Setting 1 to the variable enables all neocomplete sources by default.
+    See |github-complete.vim-neocomplete-sources| for more detail.
     Default value is 0.
 
 g:github_complete#enable_emoji_completion
                                      *g:github_complete#enable_emoji_completion*
 
+    Setting 1 to the variable enables emoji completion.
     Default value is 1.
 
 g:github_complete#enable_issue_completion
                                      *g:github_complete#enable_issue_completion*
 
+    Setting 1 to the variable enables issue number completion.
     Default value is 1.
 
 g:github_complete#enable_user_completion
                                       *g:github_complete#enable_user_completion*
 
+    Setting 1 to the variable enables GitHub user completion.
     Default value is 1.
 
 g:github_complete#enable_repo_completion
                                       *g:github_complete#enable_repo_completion*
 
+    Setting 1 to the variable enables GitHub repository name completion.
     Default value is 1.
 
 g:github_complete#include_issue_title    *g:github_complete#include_issue_title*
 
+    When 1 is set to the variable, item of issue number completion includes
+    the title of issue.  If you want to include the title of issue in your
+    writing text, it may be helpful.
     Default value is 0.
 
 g:github_complete#max_issue_candidates 
                                         *g:github_complete#max_issue_candidates*
 
+    When the repository is very big, issue number completion takes much time
+    because of many issues.  This variable limits the number of candidates of
+    issue number completion.  When non-positive number is set, it means no
+    limit.
     Default value is 100.
 
 g:github_complete#git_cmd                            *g:github_complete#git_cmd*
 
+    The command name of git.  It is used to look up the information of current
+    repository.
     Default value is "git".
 
 g:github_complete#fetch_issue_api_filetypes
                                    *g:github_complete#fetch_issue_api_filetypes*
 
+    The list of filetypes to fetch GitHub issue API call.  When the filetype
+    is set, |github-complete| instantly sends issue API call in the background.
+    After you consider your nice commit message, the API call might already be
+    done and you can use issue number completion instantly.
+    However, it takes a bit at setting the filetype because it sends API call
+    every time the filetype is set.
     Default value is [ "gitcommit" ].
 
 g:github_complete#emoji_japanese_workaround
                                    *g:github_complete#emoji_japanese_workaround*
 
+    Some environments can't show emoji in item of emoji completion.  When this
+    variable is set to 1, |github-complete| provides the workaround for the
+    description of items of emoji completion.  It shows a description of
+    the corrensponding item of completion in Japanese.
     Default value is 0.
 
 g:github_complete#fallback_omnifunc        *g:github_complete#fallback_omnifunc*
 
-    Default value is ''.
+    If a name of some function is set to the variable, |github-complete| uses
+    the function when no completion is available.  If an empty string is set,
+    |github-complete| invokes emoji completion and issue completion at the
+    same time.
+    If you already use omni function foo_bar#complete() and also want to use
+    |github-complete| at the same time, set "foo_bar#complete" to the variable
+    might help you.
+    Default value is "".
 
 
 ==============================================================================
@@ -223,6 +257,19 @@ of neocomplete and use neocomplete's way.
 
 Note: Above neocomplete sources are not tested yet.  They may be buggy.  If
 you've found a bug, please report the issue.
+
+
+==============================================================================
+RECOMMENDED PLUGIN                      *github-complete.vim-recommended-plugin*
+
+* github-issues.vim
+
+https://github.com/jaxbot/github-issues.vim
+
+This plugin treats GitHub issues in Vim.  Note that github-issues.vim provides
+its own omni completion.  You should set g:github_issues_no_omni and set
+'omnifunc' to "github_complete#complete" in issue buffers to use
+|github-complete|.
 
 
 ==============================================================================
