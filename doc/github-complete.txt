@@ -1,0 +1,181 @@
+*github-complete.vim*                              Completion for GitHub things.
+
+Author : rhysd <lin90162@yahoo.co.jp>
+Version : 0.1
+
+CONTENTS                *github-complete.vim-contents*
+
+Introduction            |github-complete.vim-introduction|
+Install                 |github-complete.vim-install|
+Usage                   |github-complete.vim-usage|
+  Emoji Completion        |github-complete.vim-usage-eomji-completion|
+  Issue Completion        |github-complete.vim-usage-issue-completion|
+  User Name Completion    |github-complete.vim-usage-user-name-completion|
+  Repository Completion   |github-complete.vim-usage-repository-completion|
+Variables               |github-complete.vim-variables|
+Repository              |github-complete.vim-repository-page|
+License                 |github-complete.vim-lisence|
+
+==============================================================================
+INTRODUCTION                                  *github-complete.vim-introduction*
+
+
+*github-complete* is a completion plugin to complete things related to GitHub.
+It generates, caches and contextually shows candidates of completion via
+GitHub API.
+|github-complete| provides below completions.
+
+- Emoji completion
+- Issue completion
+- User name completion
+- Repository name completion
+
+
+==============================================================================
+INSTALL                                            *github-complete.vim-install*
+
+If you don't use any plugin manager, copy all files in autoload/, plugin/ and
+ftplugin/ to your .vim directory.
+
+If you use a plugin manager, please follow the instruction of it to install
+|github-complete|.
+
+And then, some features are dependant on other plugins.  To use emoji
+completion, please install vim-emoji in advance.  And to use asynchronous
+communication with GitHub API, please install vimproc.vim in advance.
+
+https://github.com/junegunn/vim-emoji
+https://github.com/Shougo/vimproc.vim
+
+Below is an example for |neobundle.vim|.
+>
+    NeoBundle 'junegunn/vim-emoji'
+    NeoBundle 'Shougo/vimproc.vim'
+    NeoBundle 'rhysd/github-complete.vim'
+<
+
+==============================================================================
+USAGE                                                *github-complete.vim-usage*
+
+|github-complete| set 'omnifunc' when no other omnifunc is set on filetypes
+"gitcommit" and "markdown".  In the case, you need not to setup any
+configuration.  Otherwise, set "github_complete#complete" to 'omnifunc' in
+your favorite filetypes in your |vimrc|.
+Please be sure the proper 'omnifunc' is set with ":set omnifunc" in intended
+filetypes.
+
+>
+    augroup config-github-complete
+        autocmd!
+        autocmd FileType gitcommit setl omnifunc=github_complete#complete
+    augroup END
+<
+Now you can use contextual completions with <C-X><C-O>.  I'll show an example
+use cases for each completion.
+                                                               |i_CTRL-X_CTRL-O|
+
+Note: "_" means the place of the cursor
+
+------------------------------------------------------------------------------
+EMOJI COMPLETION                    *github-complete.vim-usage-eomji-completion*
+
+When the cursor is after ":", |github-complete| invokes emoji completion.
+If your font can deal with unicode emojis, the items of completion show the
+corrensponding emojis.
+>
+    I am a :do_
+<
+<C-X><C-O> here will show the list of emoji which starts with ":do".  Possible
+result of completion is below.
+>
+    I am a :dog:_
+<
+
+------------------------------------------------------------------------------
+ISSUE COMPLETION                    *github-complete.vim-usage-issue-completion*
+
+When the cursor is after "#", |github-complete| invokes issue number completion.
+You can select an issue with looking the issue titles in items of completion.
+>
+    I fixed #_
+<
+<C-X><C-O> here will show the list of issues for current repository.  Possible
+result of completion is below.
+>
+    I fixed #13_
+<
+
+------------------------------------------------------------------------------
+USER NAME COMPLETION            *github-complete.vim-usage-user-name-completion*
+
+When the cursor is after "@" or "github.com/", |github-complete| invokes
+GitHub user name completion.
+>
+       Hi, @rh_
+<
+<C-X><C-O> here will show the list of user name which starts with "rh".
+Possible result of completion is below.
+>
+    Hi, @rhysd_
+<
+
+------------------------------------------------------------------------------
+REPOSITORY COMPLETION          *github-complete.vim-usage-repository-completion*
+
+When the cursor is after the format {user name}/{some query}, |github_complete|
+invokes GitHub repository completion.  It shows repositories which {user name}
+owns.
+>
+    Please see github.com/rhysd/cle_
+<
+<C-X><C-O> here will show the list of repository which rhysd owns and which
+starts with "cle".  Possible result of completion is below.
+>
+    Please see github.com/rhysd/clever-f.vim
+<
+
+==============================================================================
+VARIABLES                                        *github-complete.vim-variables*
+
+|github-complete| provides many variables to customize the behavior of
+completions.
+
+TODO
+
+
+==============================================================================
+REPOSITORY PAGE                            *github-complete.vim-repository-page*
+
+The repository of |github-completion| is hosted in GitHub.
+
+https://github.com/rhysd/github-complete.vim
+
+
+==============================================================================
+LICENSE                                            *github-complete.vim-license*
+
+|github-complete| is distributed under MIT license.
+
+  Copyright (c) 2015 rhysd
+
+  Permission is hereby granted, free of charge, to any person obtaining
+  a copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to
+  permit persons to whom the Software is furnished to do so, subject to
+  the following conditions:
+  The above copyright notice and this permission notice shall be
+  included in all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+==============================================================================
+vim:tw=78:colorcolumn=78:ts=8:ft=help:norl:et:fen:fdl=0:
