@@ -14,11 +14,7 @@ endfunction
 function! s:repos(user, query, async)
     let [path, params] = s:api_path_and_param(a:user, a:query)
 
-    let func = a:async ?
-                \ 'github_complete#api#call_async_cached' :
-                \ 'github_complete#api#call_cached'
-
-    let ret = call(func, [path, params])
+    let ret = github_complete#api#call(path, params, a:async)
     let response = type(ret) == type({}) ? ret.items : ret
 
     return map(copy(response), 'v:val.name')

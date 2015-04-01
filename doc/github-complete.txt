@@ -47,6 +47,9 @@ communication with GitHub API, please install vimproc.vim in advance.
 https://github.com/junegunn/vim-emoji
 https://github.com/Shougo/vimproc.vim
 
+Note: They are optional.  No need to install them to use |github-complete| but
+I recommend.
+
 Below is an example for |neobundle.vim|.
 >
     NeoBundle 'junegunn/vim-emoji'

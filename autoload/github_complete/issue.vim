@@ -10,11 +10,7 @@ endfunction
 function! s:issues(user, repo, async)
     let [path, params] = s:api_issue_path_and_param(a:user, a:repo)
 
-    let func = a:async ?
-                \ 'github_complete#api#call_async_cached' :
-                \ 'github_complete#api#call_cached'
-
-    let candidates = map(call(func, [path, params]), '{
+    let candidates = map(github_complete#api#call(path, params, a:async), '{
                 \ "number" : v:val.number,
                 \ "title" : v:val.title,
                 \ }')

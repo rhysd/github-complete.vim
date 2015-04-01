@@ -5,6 +5,7 @@ let s:vital = github_complete#import_vital()
 let s:H = s:vital['Web.HTTP']
 let s:J = s:vital['Web.JSON']
 let s:O = s:vital['Data.Optional']
+let s:P = s:vital['Process']
 
 let s:cache = {}
 
@@ -20,7 +21,7 @@ function! s:cache_key_of(path, param)
     endif
 endfunction
 
-function! github_complete#api#call(path, params)
+function! github_complete#api#call_sync(path, params)
     let response = s:H.request({
         \ 'url' : 'https://api.github.com/' . a:path,
         \ 'headers' : {'Accept' : 'application/vnd.github.v3+json'},
@@ -35,9 +36,32 @@ function! github_complete#api#call(path, params)
     return s:J.decode(response.content)
 endfunction
 
+function! github_complete#api#call_sync_cached(path, params)
+    let key = s:cache_key_of(a:path, a:params)
+
+    if has_key(s:cache, key)
+        return s:cache[key]
+    endif
+
+    if has_key(s:working_processes, key)
+        let result = s:response_of(s:working_processes[key], key)
+        if !s:O.empty(result)
+            return s:O.get(result)
+        endif
+    endif
+
+    let response = github_complete#api#call_sync(a:path, a:params)
+    let s:cache[key] = response
+    return response
+endfunction
+
 let s:working_processes = {}
 
 function! github_complete#api#fetch_call_async(path, params, consider_cache)
+    if !s:P.has_vimproc()
+        return
+    endif
+
     let key = s:cache_key_of(a:path, a:params)
 
     if has_key(s:working_processes, key)
@@ -99,25 +123,6 @@ function! github_complete#api#call_async(path, params)
     return s:O.none()
 endfunction
 
-function! github_complete#api#call_cached(path, params)
-    let key = s:cache_key_of(a:path, a:params)
-
-    if has_key(s:cache, key)
-        return s:cache[key]
-    endif
-
-    if has_key(s:working_processes, key)
-        let result = s:response_of(s:working_processes[key], key)
-        if !s:O.empty(result)
-            return s:O.get(result)
-        endif
-    endif
-
-    let response = github_complete#api#call(a:path, a:params)
-    let s:cache[key] = response
-    return response
-endfunction
-
 function! github_complete#api#call_async_cached(path, params)
     let key = s:cache_key_of(a:path, a:params)
 
@@ -139,6 +144,15 @@ function! github_complete#api#call_async_cached(path, params)
     let response = s:O.get(call_result)
     let s:cache[key] = response
     return response
+endfunction
+
+function! github_complete#api#call(path, param, ...)
+    if a:0 == 0 || !a:1 || !s:P.has_vimproc()
+        return github_complete#api#call_sync_cached(a:path, a:param)
+    else
+        return github_complete#api#call_async_cached(a:path, a:param)
+    endif
+
 endfunction
 
 function! github_complete#api#reset_cache(...)
