@@ -13,6 +13,7 @@ Usage                   |github-complete.vim-usage|
   User Name Completion    |github-complete.vim-usage-user-name-completion|
   Repository Completion   |github-complete.vim-usage-repository-completion|
 Variables               |github-complete.vim-variables|
+Neocomplete Sources     |github-complete.vim-neocomplete-sources|
 Repository              |github-complete.vim-repository-page|
 License                 |github-complete.vim-lisence|
 
@@ -143,7 +144,85 @@ VARIABLES                                        *github-complete.vim-variables*
 |github-complete| provides many variables to customize the behavior of
 completions.
 
-TODO
+Note: Documentation is incomplete. TODO.
+
+g:github_complete#overwrite_omnifunc      *g:github_complete#overwrite_omnifunc*
+
+    Default value is 0.
+
+g:github_complete#enable_neocomplete      *g:github_complete#enable_neocomplete*
+
+    Default value is 0.
+
+g:github_complete#enable_emoji_completion
+                                     *g:github_complete#enable_emoji_completion*
+
+    Default value is 1.
+
+g:github_complete#enable_issue_completion
+                                     *g:github_complete#enable_issue_completion*
+
+    Default value is 1.
+
+g:github_complete#enable_user_completion
+                                      *g:github_complete#enable_user_completion*
+
+    Default value is 1.
+
+g:github_complete#enable_repo_completion
+                                      *g:github_complete#enable_repo_completion*
+
+    Default value is 1.
+
+g:github_complete#include_issue_title    *g:github_complete#include_issue_title*
+
+    Default value is 0.
+
+g:github_complete#max_issue_candidates 
+                                        *g:github_complete#max_issue_candidates*
+
+    Default value is 100.
+
+g:github_complete#git_cmd                            *g:github_complete#git_cmd*
+
+    Default value is "git".
+
+g:github_complete#fetch_issue_api_filetypes
+                                   *g:github_complete#fetch_issue_api_filetypes*
+
+    Default value is [ "gitcommit" ].
+
+g:github_complete#emoji_japanese_workaround
+                                   *g:github_complete#emoji_japanese_workaround*
+
+    Default value is 0.
+
+g:github_complete#fallback_omnifunc        *g:github_complete#fallback_omnifunc*
+
+    Default value is ''.
+
+
+==============================================================================
+NEOCOMPLETE SOURCES                    *github-complete.vim-neocomplete-sources*
+
+|github-complete| includes the sources of |neocomplete|.
+
+https://github.com/Shougo/neocomplete.vim
+
+You can use below sources via neocomplete's automatic completion.
+
+- "github_emoji" ... Emoji completion after ":"
+- "github_issue" ... Issue number completion after "#"
+- "github_user"  ... User completion after "@" or "github.com/"
+- "github_repo"  ... Repository completion after "{user name}/"
+
+You can enable all sources by setting |g:github_complete#enable_neocomplete|
+to 1.
+If you want to control enabling individual sources, please see documentation
+of neocomplete and use neocomplete's way.
+
+Note: Above neocomplete sources are not tested yet.  They may be buggy.  If
+you've found a bug, please report the issue.
 
 
 ==============================================================================
