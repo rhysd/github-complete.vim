@@ -2,37 +2,36 @@ function! s:set_first_line(str)
     call setline(1, a:str)
 endfunction
 
+function! s:do_completion(line_text, base)
+    call s:set_first_line(a:line_text)
+    normal! gg$
+    let start = github_complete#complete(1, '')
+    let cs = github_complete#complete(0, a:base)
+    normal! ggdd
+    return [start, cs]
+endfunction
+
 Describe #complete()
     After each
         normal! ggdG
     End
 
     It shows emoji completion candidates after ':'
-        call s:set_first_line('aaa bbb :do')
-        normal! gg$
-        let start = github_complete#complete(1, '')
-        Assert Equals(start, 8)
-        let cs = github_complete#complete(0, ':do')
-        Assert True(!empty(cs))
+        let [s, cs] = s:do_completion('aaa bbb :do', ':do')
+        Assert Equals(s, 8)
         for c in cs
             Assert Match(c.word, '^:do\w*:$')
         endfor
 
-        call s:set_first_line('aaa bbb : ')
-        normal! gg$
-        let start = github_complete#complete(1, '')
-        Assert Equals(start, 8)
-        let cs = github_complete#complete(0, ':')
+        let [s, cs] = s:do_completion('aaa bbb : ', ':')
+        Assert Equals(s, 8)
         Assert True(!empty(cs))
         for c in cs
             Assert Match(c.word, '^:[^:]\+:$')
         endfor
 
-        call s:set_first_line('aaa bbb :do)')
-        normal! gg$
-        let start = github_complete#complete(1, '')
-        Assert Equals(start, 8)
-        let cs = github_complete#complete(0, ':do')
+        let [s, cs] = s:do_completion('aaa bbb :do)', ':do')
+        Assert Equals(s, 8)
         Assert True(!empty(cs))
         for c in cs
             Assert Match(c.word, '^:do\w*:$')
@@ -40,31 +39,22 @@ Describe #complete()
     End
 
     It shows issue completion candidates after '#'
-        call s:set_first_line('aaa bbb #1')
-        normal! gg$
-        let start = github_complete#complete(1, '')
-        Assert Equals(start, 8)
-        let cs = github_complete#complete(0, '#1')
+        let [s, cs] = s:do_completion('aaa bbb #1', '#1')
+        Assert Equals(s, 8)
         Assert True(!empty(cs))
         for c in cs
             Assert Match(c.word, '^#1\d*$')
         endfor
 
-        call s:set_first_line('aaa bbb # ')
-        normal! gg$
-        let start = github_complete#complete(1, '')
-        Assert Equals(start, 8)
-        let cs = github_complete#complete(0, '#')
+        let [s, cs] = s:do_completion('aaa bbb # ', '#')
+        Assert Equals(s, 8)
         Assert True(!empty(cs))
         for c in cs
             Assert Match(c.word, '^#\d\+$')
         endfor
 
-        call s:set_first_line('aaa bbb #)')
-        normal! gg$
-        let start = github_complete#complete(1, '')
-        Assert Equals(start, 8)
-        let cs = github_complete#complete(0, '#')
+        let [s, cs] = s:do_completion('aaa bbb #)', '#')
+        Assert Equals(s, 8)
         Assert True(!empty(cs))
         for c in cs
             Assert Match(c.word, '^#\d\+$')
@@ -72,11 +62,8 @@ Describe #complete()
     End
 
     It shows user completion candidates after '@'
-        call s:set_first_line('aaa bbb @rhy ')
-        normal! gg$
-        let start = github_complete#complete(1, '')
-        Assert Equals(start, 8)
-        let cs = github_complete#complete(0, '@rhy')
+        let [s, cs] = s:do_completion('aaa bbb @rhy ', '@rhy')
+        Assert Equals(s, 8)
         Assert True(!empty(cs))
         for c in cs
             Assert Match(c.word, '@.*rhy')
@@ -84,11 +71,8 @@ Describe #complete()
     End
 
     It shows user completion candidates after 'github.com/'
-        call s:set_first_line('aaa bbb github.com/rhy ')
-        normal! gg$
-        let start = github_complete#complete(1, '')
-        Assert Equals(start, 19)
-        let cs = github_complete#complete(0, 'rhy')
+        let [s, cs] = s:do_completion('aaa bbb github.com/rhy ', 'rhy')
+        Assert Equals(s, 19)
         Assert True(!empty(cs))
         for c in cs
             Assert Match(c.word, 'rhy')
@@ -96,11 +80,8 @@ Describe #complete()
     End
 
     It shows repository completion candidates after 'user-name/'
-        call s:set_first_line('aaa bbb github.com/rhysd/cle ')
-        normal! gg$
-        let start = github_complete#complete(1, '')
-        Assert Equals(start, 19)
-        let cs = github_complete#complete(0, 'rhysd/cle')
+        let [s, cs] = s:do_completion('aaa bbb github.com/rhysd/cle ', 'rhysd/cle')
+        Assert Equals(s, 19)
         Assert True(!empty(cs))
         for c in cs
             Assert Match(c.word, '^rhysd/cle')
