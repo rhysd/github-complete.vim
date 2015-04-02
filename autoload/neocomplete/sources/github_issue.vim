@@ -12,7 +12,7 @@ let s:source = {
 \ }
 
 function! s:source.get_complete_position(context)
-    return strridx(a:context.input[:col('.')-1], '#')
+    return strridx(a:context.input[ : col('.')-1], '#')
 endfunction
 
 function! s:source.gather_candidates(context)

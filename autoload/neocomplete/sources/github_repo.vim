@@ -12,14 +12,15 @@ let s:source = {
 \ }
 
 function! s:source.get_complete_position(context)
-    return match(a:context.input[:col('.')-1], '[[:alnum:]-_]\+/[[:alnum:]-_]\+$')
+    return match(a:context.input[ : col('.')-1], '[[:alnum:]-_]\+/[[:alnum:]-_]\+$')
 endfunction
 
 function! s:source.gather_candidates(context)
-    let input = a:context.input[:col('.')-1]
-    let idx = match(input, '[[:alnum:]-_]\+/[[:alnum:]-_]\+$')
-    let base = input[idx:]
-    return github_complete#repo#candidates_async(base)
+    let repo_name = matchstr(a:context.complete_str, '/\zs[[:alnum:]-_]\+$')
+    if strlen(repo_name) < g:neocomplete#min_keyword_length
+        return []
+    endif
+    return github_complete#repo#candidates_async(a:context.complete_str)
 endfunction
 
 function! neocomplete#sources#github_repo#define()

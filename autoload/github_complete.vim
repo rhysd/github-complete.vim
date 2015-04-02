@@ -5,7 +5,7 @@ function! s:set_global_var(name, default)
 endfunction
 
 call s:set_global_var('overwrite_omnifunc', 0)
-call s:set_global_var('enable_neocomplete', 0)
+call s:set_global_var('enable_neocomplete', 1)
 call s:set_global_var('enable_emoji_completion', 1)
 call s:set_global_var('enable_issue_completion', 1)
 call s:set_global_var('enable_user_completion', 1)

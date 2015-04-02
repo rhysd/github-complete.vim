@@ -12,14 +12,14 @@ let s:source = {
 \ }
 
 function! s:source.get_complete_position(context)
-    return match(a:context.input[:col('.')-1], '\%(@\|\<github\.com/\zs\)\w\+$')
+    return match(a:context.input[ : col('.')-1], '\%(@\|\<github\.com/\zs\)\w\+$')
 endfunction
 
 function! s:source.gather_candidates(context)
-    let input = a:context.input[:col('.')-1]
-    let idx = strridx(input, '@')
-    let base = input[idx:]
-    return github_complete#user#candidates_async(base)
+    if strlen(a:context.complete_str) < g:neocomplete#min_keyword_length
+        return []
+    endif
+    return github_complete#user#candidates_async(a:context.complete_str)
 endfunction
 
 function! neocomplete#sources#github_user#define()
