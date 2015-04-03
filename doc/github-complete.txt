@@ -49,8 +49,8 @@ communication with GitHub API, please install vimproc.vim in advance.
 https://github.com/junegunn/vim-emoji
 https://github.com/Shougo/vimproc.vim
 
-Note: They are optional.  No need to install them to use |github-complete| but
-I recommend.
+Note: They are optional.  Installing them is not mandatory to use
+|github-complete| but I recommend it.
 
 Below is an example for |neobundle.vim|.
 >
@@ -58,6 +58,10 @@ Below is an example for |neobundle.vim|.
     NeoBundle 'Shougo/vimproc.vim'
     NeoBundle 'rhysd/github-complete.vim'
 <
+|github-complete| uses "curl" or "wget" command to send requests to GitHub
+API.  Please make sure to install at least one of them in your system. (They
+are usually pre-installed in *nix system.)
+
 
 ==============================================================================
 USAGE                                                *github-complete.vim-usage*
@@ -66,7 +70,7 @@ USAGE                                                *github-complete.vim-usage*
 "gitcommit" and "markdown".  In the case, you need not to setup any
 configuration.  Otherwise, set "github_complete#complete" to 'omnifunc' in
 your favorite filetypes in your |vimrc|.
-Please be sure the proper 'omnifunc' is set with ":set omnifunc" in intended
+Please make sure the proper 'omnifunc' is set with ":set omnifunc" in intended
 filetypes.
 For example, follosing code sets 'omnifunc' in "gitcommit" filetype
 >
@@ -258,6 +262,9 @@ of neocomplete and use neocomplete's way.
 Note: Above neocomplete sources are not tested yet.  They may be buggy.  If
 you've found a bug, please report the issue.
 
+Note: |neocomplete| invoke completion automatically.  Sometimes too many API
+calls are sent to GitHub API and some requests may be denied. (Their response
+will be 403.)
 
 ==============================================================================
 RECOMMENDED PLUGIN                      *github-complete.vim-recommended-plugin*
