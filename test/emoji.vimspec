@@ -33,9 +33,9 @@ Describe '#emoji'
     Describe #candidates()
         It returns all emojis list when base is not specified
             if github_complete#emoji#has_vim_emoji()
-                Assert True(!empty(github_complete#emoji#candidates('')))
+                Assert NotEmpty(github_complete#emoji#candidates(''))
             else
-                Assert True(empty(github_complete#emoji#candidates('')))
+                Assert Empry(github_complete#emoji#candidates(''))
             endif
         End
 

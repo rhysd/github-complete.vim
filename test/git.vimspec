@@ -21,7 +21,7 @@ Describe #git
             cd /
 
             let repo = github_complete#git#detect_github_repo("github.com")
-            Assert True(empty(repo))
+            Assert Empty(repo)
         End
     End
 End

@@ -20,13 +20,13 @@ Describe '#issue'
         It returns all issues
             let cs = github_complete#issue#candidates('')
             Assert IsList(cs)
-            Assert True(!empty(cs))
+            Assert NotEmpty(cs)
             Assert True(cs[0].word =~# '#\d\+')
         End
 
         It caches previous candidates
             call github_complete#api#reset_cache()
-            Assert True(empty(github_complete#api#get_cache()))
+            Assert Empty(github_complete#api#get_cache())
 
             let cs = github_complete#issue#candidates('')
 
@@ -40,7 +40,7 @@ Describe '#issue'
         It narrows down candidates with base
             let cs = github_complete#issue#candidates('#1')
             Assert IsList(cs)
-            Assert True(!empty(cs))
+            Assert NotEmpty(cs)
             for c in cs
                 Assert True(c.word =~# '^#1\d*')
             endfor
@@ -56,14 +56,14 @@ Describe '#issue'
             let ps = github_complete#api#debug_working_process()
             let ps = {}
             call github_complete#issue#fetch_issues()
-            Assert True(!empty(github_complete#api#debug_working_process()))
+            Assert NotEmpty(github_complete#api#debug_working_process())
         End
 
         It is called at gitcommit filetype
             let ps = github_complete#api#debug_working_process()
             let ps = {}
             doautocmd FileType gitcommit
-            Assert True(!empty(github_complete#api#debug_working_process()))
+            Assert NotEmpty(github_complete#api#debug_working_process())
         End
     End
 End

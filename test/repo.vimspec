@@ -22,13 +22,13 @@ Describe '#repo'
         It searches the specific user's repositories
             let cs = github_complete#repo#candidates('rhysd/cle')
             Assert IsList(cs)
-            Assert True(!empty(cs))
+            Assert NotEmpty(cs)
             Assert True(cs[0].word =~# '^rhysd/cle')
         End
 
         It caches previous candidates
             call github_complete#api#reset_cache()
-            Assert True(empty(github_complete#api#get_cache()))
+            Assert Empty(github_complete#api#get_cache())
 
             let cs = github_complete#repo#candidates('rhysd/cle')
 

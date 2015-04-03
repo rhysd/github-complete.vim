@@ -3,27 +3,27 @@ Describe #api
         It returns success for valid issue API call
             let res = github_complete#api#call_sync_cached("repos/rhysd/clever-f.vim/issues", {})
             Assert IsList(res)
-            Assert True(!empty(res))
+            Assert NotEmpty(res)
             Assert True(has_key(res[0], 'number'))
             Assert True(has_key(res[0], 'title'))
         End
 
         It returns empty result for invalid GitHub API call
             let res = github_complete#api#call_sync_cached("piyo/poyo/puyo", {})
-            Assert True(empty(res))
+            Assert Empty(res)
         End
 
         It caches the result
-            Assert True(empty(github_complete#api#get_cache("emojis", {})))
+            Assert Empty(github_complete#api#get_cache("emojis", {}))
             let res = github_complete#api#call_sync_cached("emojis", {})
             Assert IsDict(res)
-            Assert True(!empty(res))
+            Assert NotEmpty(res)
             Assert True(res['+1'] =~# '^https://')
 
             let answer = res['+1']
             let cached = github_complete#api#get_cache("emojis", {})
 
-            Assert True(!empty(cached))
+            Assert NotEmpty(cached)
             Assert Equals(answer, cached['+1'])
         End
     End
@@ -32,13 +32,13 @@ Describe #api
         It returns instantly and start fetching
             let res =github_complete#api#call_async_cached("repos/rhysd/github-complete.vim/issues", {})
             Assert IsList(res)
-            Assert True(empty(res))
+            Assert Empty(res)
 
             3sleep
 
             let res =github_complete#api#call_async_cached("repos/rhysd/github-complete.vim/issues", {})
             Assert IsList(res)
-            Assert True(!empty(res))
+            Assert NotEmpty(res)
             Assert True(res[0].url =~# '^https://')
         End
     End
@@ -50,20 +50,20 @@ Describe #api
 
         It returns all cache
             let cache = github_complete#api#get_cache()
-            Assert True(!empty(cache))
+            Assert NotEmpty(cache)
             Assert True(has_key(cache, 'emojis{}'))
         End
 
         It returns specific cache
             let cache = github_complete#api#get_cache('emojis', {})
-            Assert True(!empty(cache))
+            Assert NotEmpty(cache)
 
             let cache = github_complete#api#get_cache('emojis{}')
-            Assert True(!empty(cache))
+            Assert NotEmpty(cache)
         End
 
         It returns empty result if the cache doesn't exist
-            Assert True(empty(github_complete#api#get_cache('poyopoyopoyo')))
+            Assert Empty(github_complete#api#get_cache('poyopoyopoyo'))
         End
     End
 
@@ -73,15 +73,15 @@ Describe #api
         End
 
         It removes all cache
-            Assert True(!empty(github_complete#api#get_cache()))
+            Assert NotEmpty(github_complete#api#get_cache())
             call github_complete#api#reset_cache()
-            Assert True(empty(github_complete#api#get_cache()))
+            Assert Empty(github_complete#api#get_cache())
         End
 
         It removes specific cache
-            Assert True(!empty(github_complete#api#get_cache('emojis', {})))
+            Assert NotEmpty(github_complete#api#get_cache('emojis', {}))
             call github_complete#api#reset_cache('emojis', {})
-            Assert True(empty(github_complete#api#get_cache('emojis', {})))
+            Assert Empty(github_complete#api#get_cache('emojis', {}))
         End
     End
 

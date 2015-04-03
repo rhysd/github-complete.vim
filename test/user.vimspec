@@ -28,7 +28,7 @@ Describe '#user'
         It returns all matched '@' names
             let cs = github_complete#user#candidates('@rhysd')
             Assert IsList(cs)
-            Assert True(!empty(cs))
+            Assert NotEmpty(cs)
             Assert True(cs[0].word =~# '^@\w\+$')
         End
 
@@ -36,13 +36,13 @@ Describe '#user'
             " Note: when github.com/foo is found, base will be 'foo'
             let cs = github_complete#user#candidates('rhysd')
             Assert IsList(cs)
-            Assert True(!empty(cs))
+            Assert NotEmpty(cs)
             Assert True(cs[0].word =~# '^\w\+$')
         End
 
         It caches previous candidates
             call github_complete#api#reset_cache()
-            Assert True(empty(github_complete#api#get_cache()))
+            Assert Empty(github_complete#api#get_cache())
 
             let cs = github_complete#user#candidates('@supermomonga')
 

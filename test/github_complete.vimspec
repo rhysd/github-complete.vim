@@ -33,14 +33,14 @@ Describe #complete()
 
         let [s, cs] = s:do_completion('aaa bbb : ', ':')
         Assert Equals(s, 8)
-        Assert True(!empty(cs))
+        Assert NotEmpty(cs)
         for c in cs
             Assert Match(c.word, '^:[^:]\+:$')
         endfor
 
         let [s, cs] = s:do_completion('aaa bbb :do)', ':do')
         Assert Equals(s, 8)
-        Assert True(!empty(cs))
+        Assert NotEmpty(cs)
         for c in cs
             Assert Match(c.word, '^:do\w*:$')
         endfor
@@ -49,21 +49,21 @@ Describe #complete()
     It shows issue completion candidates after '#'
         let [s, cs] = s:do_completion('aaa bbb #1', '#1')
         Assert Equals(s, 8)
-        Assert True(!empty(cs))
+        Assert NotEmpty(cs)
         for c in cs
             Assert Match(c.word, '^#1\d*$')
         endfor
 
         let [s, cs] = s:do_completion('aaa bbb # ', '#')
         Assert Equals(s, 8)
-        Assert True(!empty(cs))
+        Assert NotEmpty(cs)
         for c in cs
             Assert Match(c.word, '^#\d\+$')
         endfor
 
         let [s, cs] = s:do_completion('aaa bbb #)', '#')
         Assert Equals(s, 8)
-        Assert True(!empty(cs))
+        Assert NotEmpty(cs)
         for c in cs
             Assert Match(c.word, '^#\d\+$')
         endfor
@@ -72,7 +72,7 @@ Describe #complete()
     It shows user completion candidates after '@'
         let [s, cs] = s:do_completion('aaa bbb @rhy ', '@rhy')
         Assert Equals(s, 8)
-        Assert True(!empty(cs))
+        Assert NotEmpty(cs)
         for c in cs
             Assert Match(c.word, '@.*rhy')
         endfor
@@ -81,7 +81,7 @@ Describe #complete()
     It shows user completion candidates after 'github.com/'
         let [s, cs] = s:do_completion('aaa bbb github.com/rhy ', 'rhy')
         Assert Equals(s, 19)
-        Assert True(!empty(cs))
+        Assert NotEmpty(cs)
         for c in cs
             Assert Match(c.word, 'rhy')
         endfor
@@ -90,7 +90,7 @@ Describe #complete()
     It shows repository completion candidates after 'user-name/'
         let [s, cs] = s:do_completion('aaa bbb github.com/rhysd/cle ', 'rhysd/cle')
         Assert Equals(s, 19)
-        Assert True(!empty(cs))
+        Assert NotEmpty(cs)
         for c in cs
             Assert Match(c.word, '^rhysd/cle')
         endfor
@@ -102,7 +102,7 @@ Describe #complete()
 
         let [s, cs] = s:do_completion("aaa bbb ccc", "ccc")
         Assert Equals(s, 42)
-        Assert True(!empty(cs))
+        Assert NotEmpty(cs)
         Assert Equals(cs, [{"word" : "foo"}, {"word" : "bar"}])
         let g:github_complete#fallback_omnifunc = saved
     End
