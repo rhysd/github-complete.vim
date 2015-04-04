@@ -1,4 +1,4 @@
-*github-complete.vim*                              Completion for GitHub things.
+*github-complete.vim*       Completions for GitHub things.
 
 Author : rhysd <lin90162@yahoo.co.jp>
 Version : 0.1
@@ -90,7 +90,7 @@ EMOJI COMPLETION                    *github-complete.vim-usage-eomji-completion*
 
 When the cursor is after ":", |github-complete| invokes emoji completion.
 If your font can deal with unicode emojis, the items of completion show the
-corrensponding emojis.
+corresponding emojis.
 >
     I am a :do_
 <
@@ -299,12 +299,12 @@ https://github.com/rhysd/github-complete.vim
 
 If you've found a bug or have some questions, do not hesitate to open an
 issue.
-And pull requests are always welcome.  Nothing is too small.
+And pull requests are always welcome.  No pull request is too small!
 
 ==============================================================================
 LICENSE                                            *github-complete.vim-license*
 
-|github-complete| is distributed under MIT license.
+|github-complete| is distributed under The MIT license.
 
   Copyright (c) 2015 rhysd
 
