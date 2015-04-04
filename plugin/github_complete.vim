@@ -12,3 +12,10 @@ if !empty(g:github_complete#fetch_issue_api_filetypes)
         unlet! s:ft
     augroup END
 endif
+
+if !empty(g:github_complete#overwrite_omnifunc_filetypes)
+    augroup plugin-github-complete-overwrite-omnifunc
+        autocmd!
+        execute 'autocmd FileType' join(g:github_complete#overwrite_omnifunc_filetypes, ',') 'set omnifunc=github_complete#complete'
+    augroup END
+endif

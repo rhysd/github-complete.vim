@@ -149,13 +149,19 @@ VARIABLES                                        *github-complete.vim-variables*
 |github-complete| provides many variables to customize the behavior of
 completions.
 
-g:github_complete#overwrite_omnifunc      *g:github_complete#overwrite_omnifunc*
+g:github_complete#overwrite_omnifunc_filetypes
+                                *g:github_complete#overwrite_omnifunc_filetypes*
 
-    When 1 is set to the variable, |github-complete.vim| set 'omnifunc' in
-    "gitcommit" and "markdown" filetypes even if other omnifunction is already
-    set.
-    Default value is 0.
+    |filetype|s can be set to the variable as a |List| of |string|.  When you
+    open the buffer whose filetype is included in the variable, 'omnifunc'
+    would be overwritten by "github_complete#complete" automatically even if
+    other omni function is already set.
+    Default value is [].
 
+    e.g.
+>
+    let g:github_complete#overwrite_omnifunc_filetypes = ["gitcommit"]
+<
 g:github_complete#enable_neocomplete      *g:github_complete#enable_neocomplete*
 
     Setting 1 to the variable enables all neocomplete sources by default.
