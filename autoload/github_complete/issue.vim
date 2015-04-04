@@ -35,7 +35,7 @@ function! s:gather_candidates(base, async)
 
     let repo = github_complete#git#detect_github_repo("github.com")
     if empty(repo)
-        github_complete#error('No github repository is found in current directory')
+        call github_complete#error('No github repository is found in current directory')
         return []
     endif
 
