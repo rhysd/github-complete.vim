@@ -266,9 +266,9 @@ You can use below sources via neocomplete's automatic completion.
 - "github_repo"  ... Repository completion after "{user name}/"
 
 You can enable all sources by setting |g:github_complete#enable_neocomplete|
-to 1.
-If you want to control enabling individual sources, please see documentation
-of neocomplete and use neocomplete's way.
+to 1.  When it is set to 1, sources would be enabled in "gitcommit" and
+"markdown" filetypes.  If you want to control enabling individual sources,
+please see documentation of neocomplete and use neocomplete's way.
 
 Note: Above neocomplete sources are not tested yet because I don't know how to
 do that.  They may be buggy.
