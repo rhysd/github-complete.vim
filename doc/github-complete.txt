@@ -232,6 +232,7 @@ g:github_complete#emoji_japanese_workaround
     variable is set to 1, |github-complete| provides the workaround for the
     description of items of emoji completion.  It shows a description of
     the corrensponding item of completion in Japanese.
+    For example, when you input ":do", items are shown such as ":dog2: -> 犬".
     Default value is 0.
 
 g:github_complete#fallback_omnifunc        *g:github_complete#fallback_omnifunc*
@@ -245,6 +246,10 @@ g:github_complete#fallback_omnifunc        *g:github_complete#fallback_omnifunc*
     might help you.
     Default value is "".
 
+    e.g.
+>
+    let g:github_complete#fallback_omnifunc = "some#other#complete"
+<
 
 ==============================================================================
 NEOCOMPLETE SOURCES                    *github-complete.vim-neocomplete-sources*
@@ -265,8 +270,8 @@ to 1.
 If you want to control enabling individual sources, please see documentation
 of neocomplete and use neocomplete's way.
 
-Note: Above neocomplete sources are not tested yet.  They may be buggy.  If
-you've found a bug, please report the issue.
+Note: Above neocomplete sources are not tested yet because I don't know how to
+do that.  They may be buggy.
 
 Note: |neocomplete| invoke completion automatically.  Sometimes too many API
 calls are sent to GitHub API and some requests may be denied. (Their response
@@ -292,6 +297,9 @@ The repository of |github-completion| is hosted in GitHub.
 
 https://github.com/rhysd/github-complete.vim
 
+If you've found a bug or have some questions, do not hesitate to open an
+issue.
+And pull requests are always welcome.  Nothing is too small.
 
 ==============================================================================
 LICENSE                                            *github-complete.vim-license*
