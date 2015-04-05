@@ -50,7 +50,7 @@ Plug 'rhysd/github-complete.vim'
 NeoBundle 'rhysd/github-complete.vim'
 ```
 
-This plugin optionally depends on [vim-emoji](https://github.com/junegunn/vim-emoji) and [vimproc.vim](https://github.com/Shougo/vimproc.vim).  I recommend to install them in advance.
+github-complete.vim optionally depends on [vim-emoji](https://github.com/junegunn/vim-emoji) and [vimproc.vim](https://github.com/Shougo/vimproc.vim).  I recommend to install them in advance.
 
 Then you've already gained the completions.  Open a buffer, execute `:setf gitcommit`, then try to type `<C-x><C-o>` after `:`.  It will show emoji candidates.  If you can't see the candidates, check `omnifunc` option with `:set omnifunc` and make sure to set it to `github_complete#complete`.
 
@@ -60,13 +60,13 @@ github-complete.vim provides [neocomplete](https://github.com/Shougo/neocomplete
 
 ## Japanese description for emoji
 
-If you are Japanese, you may be lucky.  For the environment where unicode emoji font is not available, emoji completion shows the Japanese descriptions instead of them.
+If you are Japanese, you may be lucky.  For the environment where unicode emoji font is not available, emoji completion shows the Japanese descriptions instead of them.  Set `g:github_complete#emoji_japanese_workaround` to 1 to enable this feature.
 
 ![Japanese workaround](https://raw.githubusercontent.com/rhysd/screenshots/master/github-complete.vim/japanese_workaround.gif)
 
 ## Libraries
 
-github-complete.vim uses [vital.vim](https://github.com/vim-jp/vital.vim).  vital.vim is a general purpose Vim script libraries developed by Japanese Vim community.  They are embedded in this plugin as vital modules so that users need not to install it manually. (Don't worry, vital.vim is open to the public with very relaxed license.)
+github-complete.vim uses [vital.vim](https://github.com/vim-jp/vital.vim).  vital.vim is a general purpose Vim script libraries developed by Japanese Vim community.  They are embedded in github-complete.vim as vital modules so that users need not to install it manually. (Don't worry, vital.vim is open to the public with very relaxed license.)
 
 ## License
 
