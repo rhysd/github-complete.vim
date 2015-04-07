@@ -13,7 +13,7 @@ Now github-complete.vim provides below completions:
 
 You can use these completions as omni completion in Vim.  Type `<C-x><C-o>` in insert mode to invoke omni completion.
 
-Please see [documentation](https://github.com/rhysd/github-complete.vim/doc/github-complete.txt) for more detail.
+Please see [documentation](https://github.com/rhysd/github-complete.vim/blob/master/doc/github-complete.txt) for more detail.
 
 ## Emoji completion :dog:
 
@@ -63,6 +63,17 @@ github-complete.vim provides [neocomplete](https://github.com/Shougo/neocomplete
 If you are Japanese, you may be lucky.  For the environment where unicode emoji font is not available, emoji completion shows the Japanese descriptions instead of them.  Set `g:github_complete#emoji_japanese_workaround` to 1 to enable this feature.
 
 ![Japanese workaround](https://raw.githubusercontent.com/rhysd/screenshots/master/github-complete.vim/japanese_workaround.gif)
+
+## Related plugins
+
+- [github-issues.vim](https://github.com/jaxbot/github-issues.vim)
+
+github-issues.vim provides you GitHub issue integration in Vim.
+You can look, create and close a GitHub issue.
+
+- [vim-fugitive](https://github.com/jaxbot/github-issues.vim)
+
+Git integration for Vim
 
 ## Libraries
 
