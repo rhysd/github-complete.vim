@@ -107,3 +107,24 @@ Describe #complete()
         let g:github_complete#fallback_omnifunc = saved
     End
 End
+
+Describe #call()
+    It calls API with caching
+        call github_complete#api#reset_cache()
+        let rs = github_complete#call_api('emojis', {})
+        Assert NotEmpty(rs)
+        Assert NotEmpty(github_complete#api#get_cache())
+    End
+
+    It calls API without caching if g:github_complete#enable_api_cache is set to 0
+        let saved = g:github_complete#enable_api_cache
+        let g:github_complete#enable_api_cache = 0
+        call github_complete#api#reset_cache()
+
+        let rs = github_complete#call_api('emojis', {})
+        Assert NotEmpty(rs)
+        Assert Empty(github_complete#api#get_cache())
+
+        let g:github_complete#enable_api_cache = saved
+    End
+End

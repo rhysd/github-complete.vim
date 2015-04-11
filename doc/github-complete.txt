@@ -250,6 +250,12 @@ g:github_complete#fallback_omnifunc        *g:github_complete#fallback_omnifunc*
 >
     let g:github_complete#fallback_omnifunc = "some#other#complete"
 <
+g:github_complete#enable_api_cache          *g:github_complete#enable_api_cache*
+
+    If this variable is set to 1, |github-complete| caches the result of
+    GitHub API call.  Otherwise, it doesn't.
+    Default value is 1.
+
 
 ==============================================================================
 NEOCOMPLETE SOURCES                    *github-complete.vim-neocomplete-sources*

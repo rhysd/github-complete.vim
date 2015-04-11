@@ -16,6 +16,7 @@ call s:set_global_var('git_cmd', 'git')
 call s:set_global_var('fetch_issue_api_filetypes', ['gitcommit'])
 call s:set_global_var('emoji_japanese_workaround', 0)
 call s:set_global_var('fallback_omnifunc', '')
+call s:set_global_var('enable_api_cache', 1)
 " }}}
 
 function! github_complete#error(msg)
@@ -49,6 +50,16 @@ function! github_complete#import_vital()
 
     return s:modules
 endfunction
+
+let s:P = github_complete#import_vital()['Process']
+
+function! github_complete#call_api(path, param, ...)
+    let cached = g:github_complete#enable_api_cache ? '_cached' : ''
+    let sync = a:0 == 0 || !a:1 || !s:P.has_vimproc() ? 'sync' : 'async'
+
+    return github_complete#api#call_{sync}{cached}(a:path, a:param)
+endfunction
+
 
 function! s:find_start_col()
     let line = getline('.')

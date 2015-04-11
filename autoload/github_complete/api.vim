@@ -146,15 +146,6 @@ function! github_complete#api#call_async_cached(path, params)
     return response
 endfunction
 
-function! github_complete#api#call(path, param, ...)
-    if a:0 == 0 || !a:1 || !s:P.has_vimproc()
-        return github_complete#api#call_sync_cached(a:path, a:param)
-    else
-        return github_complete#api#call_async_cached(a:path, a:param)
-    endif
-
-endfunction
-
 function! github_complete#api#reset_cache(...)
     if a:0 == 0
         let s:cache = {}

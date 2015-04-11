@@ -3,7 +3,7 @@ if (exists('g:loaded_github_complete') && g:loaded_github_complete) || &cp
 endif
 let g:loaded_github_complete = 1
 
-if !empty(g:github_complete#fetch_issue_api_filetypes)
+if !empty(g:github_complete#fetch_issue_api_filetypes) && g:github_complete#enable_api_cache
     augroup plugin-github-complete-fetch-issues
         autocmd!
         for s:ft in g:github_complete#fetch_issue_api_filetypes

@@ -12,7 +12,7 @@ endfunction
 function! s:issues(user, repo, async)
     let [path, params] = s:api_issue_path_and_param(a:user, a:repo)
 
-    let candidates = map(github_complete#api#call(path, params, a:async), '{
+    let candidates = map(github_complete#call_api(path, params, a:async), '{
                 \ "number" : v:val.number,
                 \ "title" : v:val.title,
                 \ }')
