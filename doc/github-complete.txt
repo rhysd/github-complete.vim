@@ -146,8 +146,8 @@ VARIABLES                                        *github-complete.vim-variables*
 |github-complete| provides many variables to customize the behavior of
 completions.
 
-g:github_complete#overwrite_omnifunc_filetypes
-                                *g:github_complete#overwrite_omnifunc_filetypes*
+g:github_complete_overwrite_omnifunc_filetypes
+                                *g:github_complete_overwrite_omnifunc_filetypes*
 
     |filetype|s can be set to the variable as a |List| of |string|.  When you
     open the buffer whose filetype is included in the variable, 'omnifunc'
@@ -157,47 +157,47 @@ g:github_complete#overwrite_omnifunc_filetypes
 
     e.g.
 >
-    let g:github_complete#overwrite_omnifunc_filetypes = ["gitcommit"]
+    let g:github_complete_overwrite_omnifunc_filetypes = ["gitcommit"]
 <
-g:github_complete#enable_neocomplete      *g:github_complete#enable_neocomplete*
+g:github_complete_enable_neocomplete      *g:github_complete_enable_neocomplete*
 
     Setting 1 to the variable enables all neocomplete sources by default.
     See |github-complete.vim-neocomplete-sources| for more detail.
     Default value is 0.
 
-g:github_complete#enable_emoji_completion
-                                     *g:github_complete#enable_emoji_completion*
+g:github_complete_enable_emoji_completion
+                                     *g:github_complete_enable_emoji_completion*
 
     Setting 1 to the variable enables emoji completion.
     Default value is 1.
 
-g:github_complete#enable_issue_completion
-                                     *g:github_complete#enable_issue_completion*
+g:github_complete_enable_issue_completion
+                                     *g:github_complete_enable_issue_completion*
 
     Setting 1 to the variable enables issue number completion.
     Default value is 1.
 
-g:github_complete#enable_user_completion
-                                      *g:github_complete#enable_user_completion*
+g:github_complete_enable_user_completion
+                                      *g:github_complete_enable_user_completion*
 
     Setting 1 to the variable enables GitHub user completion.
     Default value is 1.
 
-g:github_complete#enable_repo_completion
-                                      *g:github_complete#enable_repo_completion*
+g:github_complete_enable_repo_completion
+                                      *g:github_complete_enable_repo_completion*
 
     Setting 1 to the variable enables GitHub repository name completion.
     Default value is 1.
 
-g:github_complete#include_issue_title    *g:github_complete#include_issue_title*
+g:github_complete_include_issue_title    *g:github_complete_include_issue_title*
 
     When 1 is set to the variable, item of issue number completion includes
     the title of issue.  If you want to include the title of issue in your
     writing text, it may be helpful.
     Default value is 0.
 
-g:github_complete#max_issue_candidates 
-                                        *g:github_complete#max_issue_candidates*
+g:github_complete_max_issue_candidates 
+                                        *g:github_complete_max_issue_candidates*
 
     When the repository is very big, issue number completion takes much time
     because of many issues.  This variable limits the number of candidates of
@@ -205,14 +205,14 @@ g:github_complete#max_issue_candidates
     limit.
     Default value is 100.
 
-g:github_complete#git_cmd                            *g:github_complete#git_cmd*
+g:github_complete_git_cmd                            *g:github_complete_git_cmd*
 
     The command name of git.  It is used to look up the information of current
     repository.
     Default value is "git".
 
-g:github_complete#fetch_issue_api_filetypes
-                                   *g:github_complete#fetch_issue_api_filetypes*
+g:github_complete_fetch_issue_api_filetypes
+                                   *g:github_complete_fetch_issue_api_filetypes*
 
     The list of filetypes to fetch GitHub issue API call.  When the filetype
     is set, |github-complete| instantly sends issue API call in the background.
@@ -222,8 +222,8 @@ g:github_complete#fetch_issue_api_filetypes
     every time the filetype is set.
     Default value is [ "gitcommit" ].
 
-g:github_complete#emoji_japanese_workaround
-                                   *g:github_complete#emoji_japanese_workaround*
+g:github_complete_emoji_japanese_workaround
+                                   *g:github_complete_emoji_japanese_workaround*
 
     Some environments can't show emoji in item of emoji completion.  When this
     variable is set to 1, |github-complete| provides the workaround for the
@@ -232,7 +232,7 @@ g:github_complete#emoji_japanese_workaround
     For example, when you input ":do", items are shown such as ":dog2: -> 犬".
     Default value is 0.
 
-g:github_complete#fallback_omnifunc        *g:github_complete#fallback_omnifunc*
+g:github_complete_fallback_omnifunc        *g:github_complete_fallback_omnifunc*
 
     If a name of some function is set to the variable, |github-complete| uses
     the function when no completion is available.  If an empty string is set,
@@ -245,9 +245,9 @@ g:github_complete#fallback_omnifunc        *g:github_complete#fallback_omnifunc*
 
     e.g.
 >
-    let g:github_complete#fallback_omnifunc = "some#other#complete"
+    let g:github_complete_fallback_omnifunc = "some#other#complete"
 <
-g:github_complete#enable_api_cache          *g:github_complete#enable_api_cache*
+g:github_complete_enable_api_cache          *g:github_complete_enable_api_cache*
 
     If this variable is set to 1, |github-complete| caches the result of
     GitHub API call.  Otherwise, it doesn't.
@@ -268,7 +268,7 @@ You can use below sources via neocomplete's automatic completion.
 - "github_user"  ... User completion after "@" or "github.com/"
 - "github_repo"  ... Repository completion after "{user name}/"
 
-You can enable all sources by setting |g:github_complete#enable_neocomplete|
+You can enable all sources by setting |g:github_complete_enable_neocomplete|
 to 1.  When it is set to 1, sources would be enabled in "gitcommit" and
 "markdown" filetypes.  If you want to control enabling individual sources,
 please see documentation of neocomplete and use neocomplete's way.

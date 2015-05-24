@@ -3,8 +3,8 @@ set cpo&vim
 
 function! s:api_issue_path_and_param(user, repo)
     let api = printf('repos/%s/%s/issues', a:user, a:repo)
-    let params = g:github_complete#max_issue_candidates > 0
-                \ ? {'state' : 'all', 'per_page' : g:github_complete#max_issue_candidates}
+    let params = g:github_complete_max_issue_candidates > 0
+                \ ? {'state' : 'all', 'per_page' : g:github_complete_max_issue_candidates}
                 \ : {'state' : 'all'}
     return [api, params]
 endfunction
@@ -29,7 +29,7 @@ function! github_complete#issue#reset_cache(...)
 endfunction
 
 function! s:gather_candidates(base, async)
-    if !g:github_complete#enable_issue_completion
+    if !g:github_complete_enable_issue_completion
         return []
     endif
 
@@ -43,7 +43,7 @@ function! s:gather_candidates(base, async)
                     \ 'stridx("#" . v:val.number, a:base) == 0')
 
     return map(candidates, '{
-                \ "word" : "#" . (g:github_complete#include_issue_title ? v:val.number . " " . v:val.title : v:val.number),
+                \ "word" : "#" . (g:github_complete_include_issue_title ? v:val.number . " " . v:val.title : v:val.number),
                 \ "abbr" : "#" . v:val.number . " " . v:val.title,
                 \ "menu" : "[issue]",
                 \ }')

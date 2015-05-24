@@ -21,7 +21,7 @@ function! s:repos(user, query, async)
 endfunction
 
 function! s:gather_candidates(base, async)
-    if !g:github_complete#enable_repo_completion
+    if !g:github_complete_enable_repo_completion
         return []
     endif
 

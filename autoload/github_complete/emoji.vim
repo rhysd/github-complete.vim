@@ -6,7 +6,7 @@ function! github_complete#emoji#find_start(input)
 endfunction
 
 function! s:abbr_workaround(emoji)
-    if !g:github_complete#emoji_japanese_workaround
+    if !g:github_complete_emoji_japanese_workaround
         return ''
     endif
 
@@ -35,7 +35,7 @@ else
 endif
 
 function! github_complete#emoji#candidates(base)
-    if !g:github_complete#enable_emoji_completion
+    if !g:github_complete_enable_emoji_completion
         return []
     endif
 

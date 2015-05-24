@@ -22,7 +22,7 @@ function! s:users(query, at_matched, async)
 endfunction
 
 function! s:gather_candidates(base, async)
-    if !g:github_complete#enable_user_completion
+    if !g:github_complete_enable_user_completion
         return []
     endif
 

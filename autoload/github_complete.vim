@@ -1,24 +1,3 @@
-
-" Variables {{{
-function! s:set_global_var(name, default)
-    let g:github_complete#{a:name} = get(g:, 'github_complete#' . a:name, a:default)
-endfunction
-
-call s:set_global_var('overwrite_omnifunc_filetypes', [])
-call s:set_global_var('enable_neocomplete', 0)
-call s:set_global_var('enable_emoji_completion', 1)
-call s:set_global_var('enable_issue_completion', 1)
-call s:set_global_var('enable_user_completion', 1)
-call s:set_global_var('enable_repo_completion', 1)
-call s:set_global_var('include_issue_title', 0)
-call s:set_global_var('max_issue_candidates', 100)
-call s:set_global_var('git_cmd', 'git')
-call s:set_global_var('fetch_issue_api_filetypes', ['gitcommit'])
-call s:set_global_var('emoji_japanese_workaround', 0)
-call s:set_global_var('fallback_omnifunc', '')
-call s:set_global_var('enable_api_cache', 1)
-" }}}
-
 function! github_complete#error(msg)
     echohl ErrorMsg
     echomsg 'github-complete.vim: ' . a:msg
@@ -26,7 +5,7 @@ function! github_complete#error(msg)
 endfunction
 
 function! github_complete#find_start(input, pattern, completion)
-    if !g:github_complete#enable_{a:completion}_completion
+    if !g:github_complete_enable_{a:completion}_completion
         return -1
     endif
 
@@ -54,7 +33,7 @@ endfunction
 let s:P = github_complete#import_vital()['Process']
 
 function! github_complete#call_api(path, param, ...)
-    let cached = g:github_complete#enable_api_cache ? '_cached' : ''
+    let cached = g:github_complete_enable_api_cache ? '_cached' : ''
     let sync = a:0 == 0 || !a:1 || !s:P.has_vimproc() ? 'sync' : 'async'
 
     return github_complete#api#call_{sync}{cached}(a:path, a:param)
@@ -73,9 +52,9 @@ function! s:find_start_col()
         endif
     endfor
 
-    if g:github_complete#fallback_omnifunc != ''
+    if g:github_complete_fallback_omnifunc != ''
         " Note: findstart and base are always 1 and '' here.
-        return call(g:github_complete#fallback_omnifunc, [1, ''])
+        return call(g:github_complete_fallback_omnifunc, [1, ''])
     endif
 
     return col('.') - 1
@@ -90,8 +69,8 @@ function! github_complete#complete(findstart, base)
         return github_complete#{s:completion_kind}#candidates(a:base)
     endif
 
-    if g:github_complete#fallback_omnifunc != ''
-        return call(g:github_complete#fallback_omnifunc, [a:findstart, a:base])
+    if g:github_complete_fallback_omnifunc != ''
+        return call(g:github_complete_fallback_omnifunc, [a:findstart, a:base])
     endif
 
     " Note:

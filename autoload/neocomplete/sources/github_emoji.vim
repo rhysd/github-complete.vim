@@ -5,7 +5,7 @@ let s:source = {
 \ 'name'     : 'github_emoji',
 \ 'rank'     : 200,
 \ 'kind'     : 'manual',
-\ 'disabled' : !g:github_complete#enable_neocomplete,
+\ 'disabled' : !g:github_complete_enable_neocomplete,
 \ 'filetypes' : {'gitcommit' : 1, 'markdown' : 1},
 \ }
 

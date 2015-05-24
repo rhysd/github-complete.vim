@@ -6,7 +6,7 @@ let s:P = s:vital['Process']
 " Copyright (c) 2013, tyru
 "  All rights reserved.
 function! s:git(...)
-    let cmd = [g:github_complete#git_cmd] + a:000
+    let cmd = [g:github_complete_git_cmd] + a:000
     let output = s:P.system(cmd)
     if s:P.get_last_status()
         call github_complete#error("failed '" . join(cmd, ' ') . "' (exited with " . s:P.get_last_status() . ")")
