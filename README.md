@@ -77,7 +77,7 @@ Git integration for Vim
 
 - [vim-emoji](https://github.com/junegunn/vim-emoji)
 
-Vim emoji is a library and small completion plugin to use emoji in Vim.  The plugin is distributed under the MIT license.  I use the data in the library following it.  Thank you very much for @junegunn!
+Vim emoji is a library and small completion plugin to use emoji in Vim.  The plugin is distributed under the MIT license.  I use the data in the library following it.  Thank you very much for [@junegunn](https://github.com/junegunn)!
 
 ## Libraries
 
