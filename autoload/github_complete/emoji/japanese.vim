@@ -615,7 +615,7 @@ let s:japanese_map = {
   \ 'pray' : 'ゴメン, お願い',
 \ }
 
-function! github_complete#workaround#japanese#for(emoji)
+function! github_complete#emoji#japanese#for(emoji)
     if has_key(s:japanese_map, a:emoji)
         return s:japanese_map[a:emoji]
     else

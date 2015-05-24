@@ -42,11 +42,9 @@ ftplugin/ to your .vim directory.
 If you use a plugin manager, please follow the instruction of it to install
 |github-complete|.
 
-And then, some features are dependant on other plugins.  To use emoji
-completion, please install vim-emoji in advance.  And to use asynchronous
-communication with GitHub API, please install vimproc.vim in advance.
+In order to use asynchronous communication with GitHub API, please install
+vimproc.vim in advance.
 
-https://github.com/junegunn/vim-emoji
 https://github.com/Shougo/vimproc.vim
 
 Note: They are optional.  Installing them is not mandatory to use
@@ -54,7 +52,6 @@ Note: They are optional.  Installing them is not mandatory to use
 
 Below is an example for |neobundle.vim|.
 >
-    NeoBundle 'junegunn/vim-emoji'
     NeoBundle 'Shougo/vimproc.vim'
     NeoBundle 'rhysd/github-complete.vim'
 <

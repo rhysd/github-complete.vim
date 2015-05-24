@@ -5,7 +5,6 @@ How to execute tests:
 ```sh
 $ cd path/to/github-complete.vim
 $ git clone https://github.com/thinca/vim-themis
-$ git clone https://github.com/junegunn/vim-emoji.git # if not installed yet
 $ git clone https://github.com/Shougo/vimproc.vim.git # if not installed yet
 $ ./vim-themis/bin/themis test/
 ```

@@ -50,7 +50,7 @@ Plug 'rhysd/github-complete.vim'
 NeoBundle 'rhysd/github-complete.vim'
 ```
 
-github-complete.vim optionally depends on [vim-emoji](https://github.com/junegunn/vim-emoji) and [vimproc.vim](https://github.com/Shougo/vimproc.vim).  I recommend to install them in advance.
+github-complete.vim optionally depends on [vimproc.vim](https://github.com/Shougo/vimproc.vim).  I recommend to install them in advance.
 
 Then you've already gained the completions.  Open a buffer, execute `:setf gitcommit`, then try to type `<C-x><C-o>` after `:`.  It will show emoji candidates.  If you can't see the candidates, check `omnifunc` option with `:set omnifunc` and make sure to set it to `github_complete#complete`.
 
@@ -74,6 +74,10 @@ You can look, create and close a GitHub issue.
 - [vim-fugitive](https://github.com/jaxbot/github-issues.vim)
 
 Git integration for Vim
+
+- [vim-emoji](https://github.com/junegunn/vim-emoji)
+
+Vim emoji is a library and small completion plugin to use emoji in Vim.  The plugin is distributed under the MIT license.  I use the data in the library following it.  Thank you very much for @junegunn!
 
 ## Libraries
 
