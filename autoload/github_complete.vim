@@ -1,3 +1,4 @@
+
 function! github_complete#error(msg)
     echohl ErrorMsg
     echomsg 'github-complete.vim: ' . a:msg

@@ -43,7 +43,7 @@ function! github_complete#repo#candidates_async(base)
     return s:gather_candidates(a:base, 1)
 endfunction
 
-function! github_complete#issue#reset_cache(param)
+function! github_complete#repo#reset_cache(param)
     call github_complete#api#reset_cache('search/repositories', a:param)
 endfunction
 
