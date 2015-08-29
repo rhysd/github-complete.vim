@@ -45,7 +45,7 @@ function! s:find_start_col()
     let line = getline('.')
     let s:completion_kind = ''
 
-    for kind in ['emoji', 'issue', 'user', 'repo']
+    for kind in ['emoji', 'issue', 'user', 'repo', 'link']
         let c = github_complete#{kind}#find_start(line)
         if c >= 0
             let s:completion_kind = kind
@@ -66,7 +66,7 @@ function! github_complete#complete(findstart, base)
         return s:find_start_col()
     endif
 
-    if index(['emoji', 'issue', 'user', 'repo'], s:completion_kind) >= 0
+    if index(['emoji', 'issue', 'user', 'repo', 'link'], s:completion_kind) >= 0
         return github_complete#{s:completion_kind}#candidates(a:base)
     endif
 

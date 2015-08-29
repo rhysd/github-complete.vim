@@ -29,7 +29,7 @@ function! s:gather_candidates(base, async) abort
     let candidates = s:repos(m, a:async)
 
     return map(candidates, '{
-                \ "word" : v:val,
+                \ "word" : a:base . v:val,
                 \ "menu" : "[link]",
                 \ }')
 endfunction
