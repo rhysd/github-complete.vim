@@ -10,6 +10,7 @@ Now github-complete.vim provides below completions:
 - User name completion
 - Repository name completion
 - Issue number completion
+- Link URL completion
 
 You can use these completions as omni completion in Vim.  Type `<C-x><C-o>` in insert mode to invoke omni completion.
 

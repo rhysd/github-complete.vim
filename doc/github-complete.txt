@@ -12,7 +12,7 @@ Usage                   |github-complete.vim-usage|
   Issue Completion        |github-complete.vim-usage-issue-completion|
   User Name Completion    |github-complete.vim-usage-user-name-completion|
   Repository Completion   |github-complete.vim-usage-repository-completion|
-  Link Completion         |github-complete.vim-usage-link-completion|
+  Link URL Completion     |github-complete.vim-usage-link-completion|
 Variables               |github-complete.vim-variables|
 Neocomplete Sources     |github-complete.vim-neocomplete-sources|
 Recommended Plugin      |github-complete.vim-recommended-plugin|
@@ -32,6 +32,7 @@ GitHub API.
 - Issue completion
 - User name completion
 - Repository name completion
+- Link URL completion
 
 
 ==============================================================================
@@ -142,7 +143,7 @@ starts with "cle".  Possible result of completion is below.
 <
 
 ------------------------------------------------------------------------------
-LINK COMPLETION          *github-complete.vim-usage-repository-completion*
+LINK URL COMPLETION            *github-complete.vim-usage-repository-completion*
 
 When writing link to GitHub repository in markdown, you can complete its URL
 by the title of link.
