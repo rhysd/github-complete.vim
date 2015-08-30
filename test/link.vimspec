@@ -1,0 +1,44 @@
+Describe '#link'
+    Describe #find_start()
+        It returns the column to start completion
+            Assert Equals(FindStart('link', 'fooo [bar]( '), 5)
+            Assert Equals(FindStart('link', '[bar]( '), 0)
+        End
+
+        It returns - 1 when the column to start completion
+            Assert Equals(FindStart('link', 'yo yeah'), -1)
+            Assert Equals(FindStart('link', '[fooooOOO!!!]'), -1)
+            Assert Equals(FindStart('link', '[]( '), -1)
+            Assert Equals(FindStart('link', ''), -1)
+        End
+    End
+
+    Describe #candidates()
+        Before all
+            let s:ft_saved = &ft
+            set ft=markdown
+        End
+
+        After all
+            let &ft = s:ft_saved
+            unlet! s:ft_saved
+        End
+
+        It searches repositories from link name
+            let cs = github_complete#link#candidates('[clever-f](')
+            Assert IsList(cs)
+            Assert NotEmpty(cs)
+            Assert True(cs[0].word ==# '[clever-f](https://github.com/rhysd/clever-f.vim')
+        End
+
+        It searches repositories from link name
+            call github_complete#api#reset_cache()
+            Assert Empty(github_complete#api#get_cache())
+
+            let cs = github_complete#link#candidates('[clever-f](')
+
+            Assert True(github_complete#api#is_cached('search/repositories', 'q=clever-f+in:name&sort=stars'))
+            Assert Equals(cs, github_complete#link#candidates('[clever-f]('))
+        End
+    End
+End

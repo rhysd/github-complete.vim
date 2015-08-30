@@ -1,7 +1,3 @@
-function! s:set_first_line(str)
-    call setline(1, a:str)
-endfunction
-
 Describe '#repo'
     Describe #find_start()
         It returns the column to start completion

@@ -35,7 +35,7 @@ function! s:gather_candidates(base, async) abort
 endfunction
 
 function! github_complete#link#find_start(input)
-    return github_complete#find_start(a:input, '\[.*]($', 'link')
+    return github_complete#find_start(a:input, '\[.\+]($', 'link')
 endfunction
 
 function! github_complete#link#candidates(base)
