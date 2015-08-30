@@ -64,7 +64,7 @@ Then you've already gained the completions.  Open a buffer, execute `:setf gitco
 
 ## [neocomplete](https://github.com/Shougo/neocomplete.vim) sources
 
-github-complete.vim provides [neocomplete](https://github.com/Shougo/neocomplete.vim) sources corresponding to above completions.  They are disabled by default.  When you enable them, neocomplete will show candidates of the completion automatically.  Please see [documentation](https://github.com/rhysd/github-complete.vim/doc/github-complete.txt) for more detail.
+github-complete.vim provides [neocomplete](https://github.com/Shougo/neocomplete.vim) sources corresponding to above completions.  They are disabled by default.  When you enable them, neocomplete will show candidates of the completion automatically.  Please see [documentation](https://github.com/rhysd/github-complete.vim/blob/master/doc/github-complete.txt) for more detail.
 
 ## Japanese description for emoji
 
@@ -85,7 +85,7 @@ Git integration for Vim
 
 - [vim-emoji](https://github.com/junegunn/vim-emoji)
 
-Vim emoji is a library and small completion plugin to use emoji in Vim.  The plugin is distributed under the MIT license.  I use the data in the library following it.  Thank you very much for [@junegunn](https://github.com/junegunn)!
+Vim emoji is a library and small completion plugin to use emoji in Vim.  The plugin is distributed under the MIT license.  I use the data in the library following it.  Thank you [@junegunn](https://github.com/junegunn)!
 
 ## Libraries
 
