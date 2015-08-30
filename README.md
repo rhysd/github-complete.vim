@@ -40,6 +40,13 @@ You can select an issue with looking the issue titles in items of completion.
 
 ![issue number completion](https://raw.githubusercontent.com/rhysd/screenshots/master/github-complete.vim/issue_completion.gif)
 
+## Link URL completion
+
+When writing link to GitHub repository in markdown, you can complete its URL.
+On writing `[something](`, github-complete.vim searches GitHub repositories by the title `something` and shows the result.
+
+![link completion](https://raw.githubusercontent.com/rhysd/ss/master/github-complete.vim/link_completion.gif)
+
 ## Installation 
 
 You can use modern Vim plugin package managers (e.g. [Vundle.vim](https://github.com/gmarik/Vundle.vim)/[vim-plug](https://github.com/junegunn/vim-plug)/[neobundle.vim](https://github.com/Shougo/neobundle.vim)):
