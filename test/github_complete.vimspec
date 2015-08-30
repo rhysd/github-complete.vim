@@ -96,6 +96,15 @@ Describe #complete()
         endfor
     End
 
+    It shows link completion candidates after '[something]('
+        let [s, cs] = s:do_completion('aaa bbb [clever-f.vim]( ', '[clever-f.vim](')
+        Assert Equals(s, 8)
+        Assert NotEmpty(cs)
+        for c in cs
+            Assert Match(c.word, '^\[clever-f\.vim](https://github.com/.\+')
+        endfor
+    End
+
     It fallbacks to other omni functions if g:github_complete_fallback_omnifunc is set
         let saved = g:github_complete_fallback_omnifunc
         let g:github_complete_fallback_omnifunc = 'AltOmniFunction'

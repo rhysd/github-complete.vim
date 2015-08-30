@@ -18,7 +18,9 @@ Describe '#link'
             let cs = github_complete#link#candidates('[clever-f](')
             Assert IsList(cs)
             Assert NotEmpty(cs)
-            Assert True(cs[0].word ==# '[clever-f](https://github.com/rhysd/clever-f.vim')
+            for c in cs
+                Assert Match(c.word, '^\[clever-f](https://github.com/.\+')
+            endfor
         End
 
         It caches the response from API
