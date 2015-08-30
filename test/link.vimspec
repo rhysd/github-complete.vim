@@ -14,16 +14,6 @@ Describe '#link'
     End
 
     Describe #candidates()
-        Before all
-            let s:ft_saved = &ft
-            set ft=markdown
-        End
-
-        After all
-            let &ft = s:ft_saved
-            unlet! s:ft_saved
-        End
-
         It searches repositories from link name
             let cs = github_complete#link#candidates('[clever-f](')
             Assert IsList(cs)
@@ -31,7 +21,7 @@ Describe '#link'
             Assert True(cs[0].word ==# '[clever-f](https://github.com/rhysd/clever-f.vim')
         End
 
-        It searches repositories from link name
+        It caches the response from API
             call github_complete#api#reset_cache()
             Assert Empty(github_complete#api#get_cache())
 

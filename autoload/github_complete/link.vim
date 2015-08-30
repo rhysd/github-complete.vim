@@ -17,7 +17,7 @@ function! s:repos(query, async)
 endfunction
 
 function! s:gather_candidates(base, async) abort
-    if &ft !=# 'markdown' || !g:github_complete_enable_link_completion
+    if !g:github_complete_enable_link_completion
         return []
     endif
 
