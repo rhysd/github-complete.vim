@@ -79,7 +79,7 @@ If you are Japanese, you may be lucky.  For the environment where unicode emoji 
 github-issues.vim provides you GitHub issue integration in Vim.
 You can look, create and close a GitHub issue.
 
-- [vim-fugitive](https://github.com/jaxbot/github-issues.vim)
+- [vim-fugitive](https://github.com/tpope/vim-fugitive)
 
 Git integration for Vim
 
