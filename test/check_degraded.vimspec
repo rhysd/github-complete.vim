@@ -1,6 +1,8 @@
-Describe #4
-    It is fixed
-        Assert Equals(FindStart('link', '[].   `f`  [marked]( '), 11)
-        Assert Equals(FindStart('link', '[foo](foo) and [bar]( '), 15)
+Describe Reported issue
+    Describe #4
+        It is fixed
+            Assert Equals(FindStart('link', '[].   `f`  [marked]( '), 11)
+            Assert Equals(FindStart('link', '[foo](foo) and [bar]( '), 15)
+        End
     End
 End

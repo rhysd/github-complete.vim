@@ -1,7 +1,6 @@
 language: generic
 install:
     - git clone https://github.com/thinca/vim-themis && (cd vim-themis && git show HEAD)
-    - git clone https://github.com/junegunn/vim-emoji.git && (cd vim-emoji && git show HEAD)
     - git clone https://github.com/Shougo/vimproc.vim.git && (cd vimproc.vim && git show HEAD && make)
 before_script:
     - uname -a

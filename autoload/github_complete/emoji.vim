@@ -21,13 +21,13 @@ endfunction
 if github_complete#emoji#data#available()
     let s:candidates = map(github_complete#emoji#data#list(), '{
                 \ "word" : ":" . v:val . ":",
-                \ "abbr" : ":" . v:val . ": " . emoji#for(v:val),
+                \ "abbr" : ":" . v:val . ": " . github_complete#emoji#data#for(v:val),
                 \ "menu" : "[emoji]",
                 \ }')
 else
     " Note:
     " Add more workaround for the environment emojis are unavailable
-    let s:candidates = map(keys(github_complete#emoji#data#dict()), '{
+    let s:candidates = map(github_complete#emoji#data#list(), '{
                 \ "word" : ":" . v:val . ":",
                 \ "abbr" : ":" . v:val . ":" . s:abbr_workaround(v:val),
                 \ "menu" : "[emoji]",

@@ -21,7 +21,7 @@
 " OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 " WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-let s:emoji_code = {
+let s:emoji_codes = {
     \ '+1': 0x1f44d,
     \ '-1': 0x1f44e,
     \ '100': 0x1f4af,
@@ -892,7 +892,7 @@ let s:emoji_code = {
 \ }
 
 function! github_complete#emoji#data#dict()
-    return s:emoji_code
+    return s:emoji_codes
 endfunction
 
 let s:available = !has('gui_running') &&
@@ -905,6 +905,20 @@ function! github_complete#emoji#data#available()
 endfunction
 
 function! github_complete#emoji#data#list()
-    return keys(emoji#data#dict())
+    return keys(s:emoji_codes)
+endfunction
+
+function! github_complete#emoji#data#for(short)
+    let codes = get(s:emoji_codes, a:short, '')
+    let t = type(codes)
+    if t == 0
+        " 0 means Number
+        return nr2char(codes)
+    elseif t == 3
+        " 3 means List
+        return call('nr2char', codes)
+    else
+        return ''
+    endif
 endfunction
 
