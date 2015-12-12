@@ -895,10 +895,9 @@ function! github_complete#emoji#data#dict()
     return s:emoji_codes
 endfunction
 
-let s:available = !has('gui_running') &&
-\ (has('mac') || has('macunix') ||
-\  (executable('uname') &&
-\   index(['Darwin', 'Mac'], substitute(system('uname'), '\n', '', '')) != -1))
+let s:available = has('mac') || has('macunix') ||
+    \ (!has('win32') && !has('win64') && executable('uname') &&
+    \  index(['Darwin', 'Mac'], substitute(system('uname'), '\n', '', '')) != -1)
 
 function! github_complete#emoji#data#available()
   return s:available
