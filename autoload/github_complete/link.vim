@@ -21,7 +21,7 @@ function! s:gather_candidates(base, async) abort
         return []
     endif
 
-    let m = matchstr(a:base, '\[\zs.*\ze](')
+    let m = matchstr(a:base, '\[\zs.\+\ze]($')
     if m ==# ''
         return []
     endif
@@ -35,7 +35,7 @@ function! s:gather_candidates(base, async) abort
 endfunction
 
 function! github_complete#link#find_start(input)
-    return github_complete#find_start(a:input, '\[.\+]($', 'link')
+    return github_complete#find_start(a:input, '\[[^]]\{-1,}]($', 'link')
 endfunction
 
 function! github_complete#link#candidates(base)
