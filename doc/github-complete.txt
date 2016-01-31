@@ -71,7 +71,7 @@ configuration.  Otherwise, set "github_complete#complete" to 'omnifunc' in
 your favorite filetypes in your |vimrc|.
 Please make sure the proper 'omnifunc' is set with ":set omnifunc" in intended
 filetypes.
-For example, follosing code sets 'omnifunc' in "gitcommit" filetype
+For example, following code sets 'omnifunc' in "gitcommit" filetype
 >
     augroup config-github-complete
         autocmd!
