@@ -6,7 +6,7 @@ let s:source = {
 \ 'rank'     : 200,
 \ 'kind'     : 'manual',
 \ 'disabled' : !g:github_complete_enable_neocomplete,
-\ 'filetypes' : {'gitcommit' : 1, 'markdown' : 1},
+\ 'filetypes' : {'gitcommit' : 1, 'markdown' : 1, 'magit' : 1},
 \ }
 
 function! s:source.get_complete_position(context)
