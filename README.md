@@ -83,6 +83,10 @@ You can look, create and close a GitHub issue.
 
 Git integration for Vim
 
+- [vimagit](https://github.com/jreybert/vimagit)
+
+Git client for Vim which is inspired by magit for Emacs.
+
 - [vim-emoji](https://github.com/junegunn/vim-emoji)
 
 Vim emoji is a library and small completion plugin to use emoji in Vim.  The plugin is distributed under the MIT license.  I use the data in the library following it.  Thank you [@junegunn](https://github.com/junegunn)!
