@@ -1,0 +1,17 @@
+Describe 'g:github_complete_'
+    Describe 'enable_omni_completion'
+        It is set to 1 by default
+            Assert Equals(g:github_complete_enable_omni_completion, 1)
+        End
+
+        It does not set omni completion if 0
+            try
+                let g:github_complete_enable_omni_completion = 0
+                set filetype=gitcommit
+                Assert NotEqual(&omnifunc, 'github_complete#complete')
+            finally
+                let g:github_complete_enable_omni_completion = 1
+            endtry
+        End
+    End
+End

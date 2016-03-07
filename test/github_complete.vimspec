@@ -137,3 +137,12 @@ Describe #call()
         let g:github_complete_enable_api_cache = saved
     End
 End
+
+Describe #manual_complete()
+    It open popup menu to complete
+        call s:set_first_line('aaa bbb :do ')
+        normal! gg$
+        execute 'normal!' "i\<C-r>=github_complete#manual_complete()\<CR>"
+        Assert True(pumvisible(), 'Expected popup menu to be open')
+    End
+End
