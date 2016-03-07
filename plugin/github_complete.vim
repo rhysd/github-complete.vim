@@ -22,6 +22,7 @@ call s:set_global_var('fetch_issue_api_filetypes', ['gitcommit'])
 call s:set_global_var('emoji_japanese_workaround', 0)
 call s:set_global_var('fallback_omnifunc', '')
 call s:set_global_var('enable_api_cache', 1)
+call s:set_global_var('enable_omni_completion', 1)
 " }}}
 
 
