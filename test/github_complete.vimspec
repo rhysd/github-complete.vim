@@ -145,7 +145,7 @@ Describe #manual_complete()
         call s:set_first_line('aaa bbb @rh ')
         normal! gg$
         execute 'normal!' "i\<C-r>=github_complete#manual_complete()\<CR>"
-        Assert True(github_complete#api#is_cached('search/users', 'q=rh+in:login'))
+        Assert NotEmpty(github_complete#api#get_cache())
         call github_complete#api#reset_cache()
     End
 End
