@@ -22,9 +22,13 @@ function! s:cache_key_of(path, param)
 endfunction
 
 function! github_complete#api#call_sync(path, params)
+    let headers = {'Accept' : 'application/vnd.github.v3+json'}
+    if g:github_complete_github_api_token !=# ''
+        let headers.Authorization = 'token ' . g:github_complete_github_api_token
+    endif
     let response = s:H.request({
         \ 'url' : 'https://api.github.com/' . a:path,
-        \ 'headers' : {'Accept' : 'application/vnd.github.v3+json'},
+        \ 'headers' : headers,
         \ 'method' : 'GET',
         \ 'param' : a:params,
         \ 'client' : ['curl', 'wget'],
@@ -73,9 +77,13 @@ function! github_complete#api#fetch_call_async(path, params, consider_cache)
         return
     endif
 
+    let headers = {'Accept' : 'application/vnd.github.v3+json'}
+    if g:github_complete_github_api_token !=# ''
+        let headers.Authorization = 'token ' . g:github_complete_github_api_token
+    endif
     let request = s:H.request_async({
         \ 'url' : 'https://api.github.com/' . a:path,
-        \ 'headers' : {'Accept' : 'application/vnd.github.v3+json'},
+        \ 'headers' : headers,
         \ 'method' : 'GET',
         \ 'param' : a:params,
         \ 'client' : ['curl', 'wget'],

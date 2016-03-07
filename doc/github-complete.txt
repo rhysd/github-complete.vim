@@ -280,6 +280,28 @@ g:github_complete_enable_omni_completion
     'omnifunc' on "gitcommit", "markdown" and "magit" filetypes.
     Default value is 1.
 
+g:github_complete_github_api_token          *g:github_complete_github_api_token*
+
+    You can specify a token for GitHub API as string.  If you obtain a token
+    with properly scopes, github-complete.vim will have the ability to access
+    to private repositories.  And API rate limit is increased to 5000 from 60
+    per hour.
+    This value is set to environmental variable $GITHUB_API_TOKEN.  If it is
+    empty, simply empty string is set.  When empty string is set,
+    github-complete.vim won't use a token to call GitHub API.
+
+    To obtain GitHub API token, please access GitHub page as below:
+
+        1. Access to https://github.com
+        2. Click your icon and select 'Settings' in pull-down menu.
+        3. Select 'Personal access tokens' tab.
+        4. Click 'Generate new token' button.
+        5. Specify properly scopes. (If you don't want to access private
+           repository, select nothing.)
+        6. Click 'Genrate token' button and copy the displayed token.
+
+    Note: Please do not expose your token.  It's secret.
+
 ==============================================================================
 MAPPINGS                                          *github-complete.vim-mappings*
 
