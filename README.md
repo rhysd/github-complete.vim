@@ -72,6 +72,48 @@ If you are Japanese, you may be lucky.  For the environment where unicode emoji 
 
 ![Japanese workaround](https://raw.githubusercontent.com/rhysd/screenshots/master/github-complete.vim/japanese_workaround.gif)
 
+## FAQ
+
+### neocomplete.vim shows github-complete.vim's completion result automatically.  How can I stop it?
+
+Please write below config to prevent neocomplete from executing omni completion on `gitcommit` and `markdown` filetypes.
+
+```vim
+if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+endif
+let g:neocomplete#sources#omni#input_patterns.markdown = ''
+let g:neocomplete#sources#omni#input_patterns.gitcommit = ''
+```
+
+### I want to use github-complete.vim on private repositories.
+
+Please set GitHub API token to `g:github_complete_api_token`.  Do not put API token to public place and manage it properly.
+How to obtain it is:
+
+1. Access to https://github.com
+2. Click your icon and select 'Settings' in pull-down menu.
+3. Select 'Personal access tokens' tab.
+4. Click 'Generate new token' button.
+5. Specify properly scopes.
+6. Click 'Genrate token' button and copy the displayed token.
+
+### API rate limit exceeded...
+
+Please try setting GitHub API token as the above question.  API limit is increased to 5000 from 60 per hour when API token is specified.
+
+### I don't want to overwrite `omnifunc`...
+
+You can define a mapping for manual completion as below.
+
+```vim
+" Disable overwriting 'omnifunc'
+let g:github_complete_enable_omni_completion = 0
+" <C-x><C-x> invokes completions of github-complete.vim
+autocmd FileType markdown,gitcommit
+    \ imap <C-x><C-x> <Plug>(github-complete-manual-completion)
+```
+
 ## Related plugins
 
 - [github-issues.vim](https://github.com/jaxbot/github-issues.vim)
