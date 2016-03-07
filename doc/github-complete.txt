@@ -1,7 +1,7 @@
 *github-complete.vim*       Completions for GitHub things.
 
 Author : rhysd <lin90162@yahoo.co.jp>
-Version : 0.1
+Version : 0.2.0
 
 CONTENTS                *github-complete.vim-contents*
 
@@ -14,6 +14,7 @@ Usage                   |github-complete.vim-usage|
   Repository Completion   |github-complete.vim-usage-repository-completion|
   Link URL Completion     |github-complete.vim-usage-link-completion|
 Variables               |github-complete.vim-variables|
+Mappings                |github-complete.vim-mappings|
 Neocomplete Sources     |github-complete.vim-neocomplete-sources|
 Recommended Plugin      |github-complete.vim-recommended-plugin|
 Repository              |github-complete.vim-repository-page|
@@ -215,7 +216,7 @@ g:github_complete_include_issue_title    *g:github_complete_include_issue_title*
     writing text, it may be helpful.
     Default value is 0.
 
-g:github_complete_max_issue_candidates 
+g:github_complete_max_issue_candidates
                                         *g:github_complete_max_issue_candidates*
 
     When the repository is very big, issue number completion takes much time
@@ -272,6 +273,29 @@ g:github_complete_enable_api_cache          *g:github_complete_enable_api_cache*
     GitHub API call.  Otherwise, it doesn't.
     Default value is 1.
 
+g:github_complete_enable_omni_completion
+                                      *g:github_complete_enable_omni_completion*
+
+    If this variable is set to 1, github-complete.vim automatically defines
+    'omnifunc' on "gitcommit", "markdown" and "magit" filetypes.
+    Default value is 1.
+
+==============================================================================
+MAPPINGS                                          *github-complete.vim-mappings*
+
+<Plug>(github-complete-manual-completion)
+                                     *<Plug>(github-complete-manual-completion)*
+
+    This mapping starts completion manually.  You can define custom mapping to
+    use completions of github-complete.vim rather than omni completion.  This
+    mapping is defined only in insert mode. >
+
+    " Disable overwriting 'omnifunc'
+    let g:github_complete_enable_omni_completion = 0
+    " <C-x><C-x> invokes completions of github-complete.vim
+    autocmd FileType markdown,gitcommit
+        \ imap <C-x><C-x> <Plug>(github-complete-manual-completion)
+<
 
 ==============================================================================
 NEOCOMPLETE SOURCES                    *github-complete.vim-neocomplete-sources*
