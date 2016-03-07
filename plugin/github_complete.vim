@@ -41,3 +41,6 @@ if !empty(g:github_complete_overwrite_omnifunc_filetypes)
         execute 'autocmd FileType' join(g:github_complete_overwrite_omnifunc_filetypes, ',') 'set omnifunc=github_complete#complete'
     augroup END
 endif
+
+inoremap <silent><Plug>(github-complete-manual-completion) <C-r>=github_complete#manual_complete()<CR>
+

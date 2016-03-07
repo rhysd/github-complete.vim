@@ -85,3 +85,13 @@ function! github_complete#complete(findstart, base)
     return candidates
 endfunction
 
+function! github_complete#manual_complete()
+    let idx = s:find_start_col()
+    if idx < 0
+        return ''
+    endif
+    let col = idx + 1
+    let base = getline('.')[idx : col('.')-1]
+    call complete(col, github_complete#complete(0, base))
+    return ''
+endfunction
