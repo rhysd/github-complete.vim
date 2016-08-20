@@ -18,32 +18,40 @@ function! s:abbr_workaround(emoji)
     return " -> " . desc
 endfunction
 
-if github_complete#emoji#data#available()
-    let s:candidates = map(github_complete#emoji#data#list(), '{
-                \ "word" : ":" . v:val . ":",
-                \ "abbr" : ":" . v:val . ": " . github_complete#emoji#data#for(v:val),
-                \ "menu" : "[emoji]",
-                \ }')
-else
-    " Note:
-    " Add more workaround for the environment emojis are unavailable
-    let s:candidates = map(github_complete#emoji#data#list(), '{
-                \ "word" : ":" . v:val . ":",
-                \ "abbr" : ":" . v:val . ":" . s:abbr_workaround(v:val),
-                \ "menu" : "[emoji]",
-                \ }')
+if !exists("g:github_complete_emoji_force_available")
+    let g:github_complete_emoji_force_available = 0
 endif
+
+let s:available_candidates = map(github_complete#emoji#data#list(), '{
+        \ "word" : ":" . v:val . ":",
+        \ "abbr" : ":" . v:val . ": " . github_complete#emoji#data#for(v:val),
+        \ "menu" : "[emoji]",
+        \ }')
+
+" Note:
+" Add more workaround for the environment emojis are unavailable
+let s:unavailable_candidates = map(github_complete#emoji#data#list(), '{
+        \ "word" : ":" . v:val . ":",
+        \ "abbr" : ":" . v:val . ":" . s:abbr_workaround(v:val),
+        \ "menu" : "[emoji]",
+        \ }')
 
 function! github_complete#emoji#candidates(base)
     if !g:github_complete_enable_emoji_completion
         return []
     endif
 
+    if github_complete#emoji#data#available() || g:github_complete_emoji_force_available
+        let l:candidates = s:available_candidates
+    else
+        let l:candidates = s:unavailable_candidates
+    endif
+            
     if a:base ==# ''
-        return s:candidates
+        return l:candidates
     else
         let len = strlen(a:base)
-        return filter(copy(s:candidates), 'stridx(v:val.word, a:base) == 0')
+        return filter(copy(l:candidates), 'stridx(v:val.word, a:base) == 0')
     endif
 endfunction
 
