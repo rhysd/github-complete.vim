@@ -33,3 +33,5 @@ Describe '#repo'
         End
     End
 End
+
+" vim:ft=vim

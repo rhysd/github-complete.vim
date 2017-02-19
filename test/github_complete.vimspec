@@ -149,3 +149,5 @@ Describe #manual_complete()
         call github_complete#api#reset_cache()
     End
 End
+
+" vim:ft=vim

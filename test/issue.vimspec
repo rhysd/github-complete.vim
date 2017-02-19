@@ -67,3 +67,5 @@ Describe '#issue'
         End
     End
 End
+
+" vim:ft=vim

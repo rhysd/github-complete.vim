@@ -84,5 +84,6 @@ Describe #api
             Assert Empty(github_complete#api#get_cache('emojis', {}))
         End
     End
-
 End
+
+" vim:ft=vim

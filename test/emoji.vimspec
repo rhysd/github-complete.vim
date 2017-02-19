@@ -44,3 +44,5 @@ Describe '#emoji#japanese'
         End
     End
 End
+
+" vim:ft=vim

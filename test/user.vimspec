@@ -52,3 +52,5 @@ Describe '#user'
 
     End
 End
+
+" vim:ft=vim

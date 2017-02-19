@@ -34,3 +34,5 @@ Describe '#link'
         End
     End
 End
+
+" vim:ft=vim
