@@ -48,7 +48,7 @@ function! github_complete#api#call_sync_cached(path, params)
     endif
 
     if has_key(s:working_processes, key)
-        let result = s:response_of(s:working_processes[key], key)
+        let result = s:response_of(s:working_processes[key], key, a:path)
         if !s:O.empty(result)
             return s:O.get(result)
         endif
@@ -91,7 +91,7 @@ function! github_complete#api#fetch_call_async(path, params, consider_cache)
     let s:working_processes[key] = request
 endfunction
 
-function! s:response_of(request, key)
+function! s:response_of(request, key, path)
     let [condition, status] = a:request.process.checkpid()
     if condition ==# 'exit'
         call a:request.process.stdout.close()
@@ -124,7 +124,7 @@ function! github_complete#api#call_async(path, params)
     let key = s:cache_key_of(a:path, a:params)
 
     if has_key(s:working_processes, key)
-        return s:response_of(s:working_processes[key], key)
+        return s:response_of(s:working_processes[key], key, a:path)
     endif
 
     call github_complete#api#fetch_call_async(a:path, a:params, 0)
@@ -143,7 +143,7 @@ function! github_complete#api#call_async_cached(path, params)
         return []
     endif
 
-    let call_result = s:response_of(s:working_processes[key], key)
+    let call_result = s:response_of(s:working_processes[key], key, a:path)
 
     if s:O.empty(call_result)
         return []
