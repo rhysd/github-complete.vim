@@ -3,9 +3,10 @@ Describe '#link'
         It returns the column to start completion
             Assert Equals(FindStart('link', 'fooo [bar]( '), 5)
             Assert Equals(FindStart('link', '[bar]( '), 0)
+            Assert Equals(FindStart('link', '[label]:  '), 0)
         End
 
-        It returns - 1 when the column to start completion
+        It returns - 1 when the column should not start completion
             Assert Equals(FindStart('link', 'yo yeah'), -1)
             Assert Equals(FindStart('link', '[fooooOOO!!!]'), -1)
             Assert Equals(FindStart('link', '[]( '), -1)
@@ -20,6 +21,15 @@ Describe '#link'
             Assert NotEmpty(cs)
             for c in cs
                 Assert Match(c.word, '^\[clever-f](https://github.com/.\+')
+            endfor
+        End
+
+        It searches repositories from link label def
+            let cs = github_complete#link#candidates('[clever-f]: ')
+            Assert IsList(cs)
+            Assert NotEmpty(cs)
+            for c in cs
+                Assert Match(c.word, '^\[clever-f]: https://github.com/.\+')
             endfor
         End
 

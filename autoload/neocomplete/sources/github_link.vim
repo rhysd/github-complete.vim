@@ -13,11 +13,11 @@ let s:source = {
 \ }
 
 function! s:source.get_complete_position(context)
-    return match(a:context.input[ : col('.')-1], '\[.\+]($')
+    return match(a:context.input[ : col('.')-1], '\[.\+]\%(: \|(\)$')
 endfunction
 
 function! s:source.gather_candidates(context)
-    let query = matchstr(a:context.complete_str, '\[\zs.\+\ze](')
+    let query = matchstr(a:context.complete_str, '\[\zs.\+\ze]\%(: \|(\)')
     if strlen(query) < g:neocomplete#min_keyword_length
         return []
     endif
