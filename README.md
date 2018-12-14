@@ -88,7 +88,7 @@ let g:neocomplete#sources#omni#input_patterns.gitcommit = ''
 
 ### I want to use github-complete.vim on private repositories.
 
-Please set GitHub API token to `g:github_complete_api_token`.  Do not put API token to public place and manage it properly.
+Please set GitHub API token to `g:github_complete_github_api_token`.  Do not put API token to public place and manage it properly.
 How to obtain it is:
 
 1. Access to https://github.com
