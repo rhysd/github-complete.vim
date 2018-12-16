@@ -26,8 +26,14 @@ function! github_complete#api#call_sync(path, params)
     if g:github_complete_github_api_token !=# ''
         let headers.Authorization = 'token ' . g:github_complete_github_api_token
     endif
+    if g:github_complete_ghe_host !=# ''
+      let url = 'https://' . g:github_complete_ghe_host . '/api/v3/'
+    else
+      let url = 'https://api.github.com/'
+    endif
+    let url = url . a:path
     let response = s:H.request({
-        \ 'url' : 'https://api.github.com/' . a:path,
+        \ 'url' : url,
         \ 'headers' : headers,
         \ 'method' : 'GET',
         \ 'param' : a:params,
