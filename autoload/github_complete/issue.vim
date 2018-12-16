@@ -3,9 +3,12 @@ set cpo&vim
 
 function! s:api_issue_path_and_param(user, repo)
     let api = printf('repos/%s/%s/issues', a:user, a:repo)
-    let params = g:github_complete_max_issue_candidates > 0
-                \ ? {'state' : 'all', 'per_page' : g:github_complete_max_issue_candidates}
-                \ : {'state' : 'all'}
+    let params = g:github_complete_issue_request_params
+
+    if g:github_complete_max_issue_candidates > 0
+      let params['per_page'] = g:github_complete_max_issue_candidates
+    endif
+
     return [api, params]
 endfunction
 
