@@ -225,6 +225,15 @@ g:github_complete_max_issue_candidates
     limit.
     Default value is 100.
 
+g:github_complete_issue_request_params
+                                        *g:github_complete_issue_request_params*
+
+    This is a dictionary of parameters used to request the github issue api. It
+    allows to have more control on what issue to show. For example, show only
+    the opened, assigned to you, labeled as bug issue:
+    {'state' : 'open', 'assignee' : 'your-username', 'label' : 'bug' }
+    Default value is {'state' : 'all'}.
+
 g:github_complete_git_cmd                            *g:github_complete_git_cmd*
 
     The command name of git.  It is used to look up the information of current
