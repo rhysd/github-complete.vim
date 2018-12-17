@@ -25,6 +25,7 @@ call s:set_global_var('fallback_omnifunc', '')
 call s:set_global_var('enable_api_cache', 1)
 call s:set_global_var('enable_omni_completion', 1)
 call s:set_global_var('github_api_token', $GITHUB_API_TOKEN)
+call s:set_global_var('ghe_host', '')
 " }}}
 
 

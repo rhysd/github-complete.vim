@@ -36,7 +36,7 @@ function! s:gather_candidates(base, async)
         return []
     endif
 
-    let repo = github_complete#git#detect_github_repo("github.com")
+    let repo = github_complete#git#detect_github_repo(s:get_github_repo())
     if empty(repo)
         call github_complete#error('No github repository is found in current directory')
         return []
@@ -61,7 +61,7 @@ function! github_complete#issue#candidates_async(base)
 endfunction
 
 function! github_complete#issue#fetch_issues()
-    let repo = github_complete#git#detect_github_repo('github.com')
+    let repo = github_complete#git#detect_github_repo(s:get_github_repo())
     if empty(repo)
         return
     endif
@@ -70,6 +70,14 @@ function! github_complete#issue#fetch_issues()
 
     " Note: '1' means 'consider cache'
     call github_complete#api#fetch_call_async(path, params, 1)
+endfunction
+
+function! s:get_github_repo()
+    if g:github_complete_ghe_host !=# ''
+        return g:github_complete_ghe_host
+    endif
+
+    return 'github.com'
 endfunction
 
 let &cpo = s:save_cpo

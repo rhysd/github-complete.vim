@@ -311,6 +311,11 @@ g:github_complete_github_api_token          *g:github_complete_github_api_token*
 
     Note: Please do not expose your token.  It's secret.
 
+g:github_complete_ghe_host                          *g:github_complete_ghe_host*
+
+    If you're a user of Github Enterprise, set this variable to your host.
+    Default value is "github.com".
+
 ==============================================================================
 MAPPINGS                                          *github-complete.vim-mappings*
 
