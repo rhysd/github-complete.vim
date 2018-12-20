@@ -314,8 +314,12 @@ g:github_complete_github_api_token          *g:github_complete_github_api_token*
 g:github_complete_ghe_host                          *g:github_complete_ghe_host*
 
     If you're a user of Github Enterprise, set this variable to your host.
-    Default value is "github.com".
+    Default value is "".
 
+    e.g.
+>
+    let g:github_complete_ghe_host = 'github.mycompany.io'
+<
 ==============================================================================
 MAPPINGS                                          *github-complete.vim-mappings*
 
