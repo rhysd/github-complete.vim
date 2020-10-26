@@ -9,7 +9,13 @@ $ git clone https://github.com/Shougo/vimproc.vim.git # if not installed yet
 $ ./vim-themis/bin/themis test/
 ```
 
-To use [guard](https://github.com/guard/guard), execute `guard` at the root of repository.
+To watch file changes and run tests automatically, [guard](https://github.com/guard/guard) is available.
+
+```sh
+$ gem install guard guard-shell
+```
+
+Run `guard` at the root of repository.
 
 ```sh
 $ cd path/to/github-complete.vim
