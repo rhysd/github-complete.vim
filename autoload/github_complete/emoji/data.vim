@@ -21,6 +21,8 @@
 " OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 " WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+let s:number_t = type(0)
+let s:list_t = type([])
 let s:emoji_codes = {
     \ '+1': 0x1f44d,
     \ '-1': 0x1f44e,
@@ -908,14 +910,13 @@ function! github_complete#emoji#data#list()
 endfunction
 
 function! github_complete#emoji#data#for(short)
-    let codes = get(s:emoji_codes, a:short, '')
-    let t = type(codes)
-    if t == 0
-        " 0 means Number
-        return nr2char(codes)
-    elseif t == 3
-        " 3 means List
-        return call('nr2char', codes)
+    let unit = get(s:emoji_codes, a:short, '')
+    let t = type(unit)
+    if t == s:number_t
+        return nr2char(unit)
+    elseif t == s:list_t
+        " Multiple code points for code unit
+        return join(map(unit, 'nr2char("v:val")'), '')
     else
         return ''
     endif
